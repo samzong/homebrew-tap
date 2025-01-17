@@ -10,5 +10,5 @@ cask "hf-model-downloader" do
   desc "A GUI tool for downloading Hugging Face models"
   homepage "https://github.com/samzong/hf-model-downloader"
 
-  app "HF Model Downloader.app"
+  app "hf-model-downloader-arm64.app"
 end 
