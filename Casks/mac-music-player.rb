@@ -1,8 +1,8 @@
 cask "mac-music-player" do
-  version "0.1.5"
+  version "0.1.7"
 
   url "https://github.com/samzong/MacMusicPlayer/releases/download/v#{version}/MacMusicPlayer-v#{version}.dmg"
-  sha256 "a07796092a536d6b021e69f97c8984a61efbd709582e7bd27e0a86c619b06e97"
+  sha256 "510569bf8833c329652ceaea12035a773ba08a7e8181af3a392d0d68b8010d4b"
 
   name "MacMusicPlayer"
   desc "A simple and elegant music player for macOS"
