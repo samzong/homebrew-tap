@@ -8,7 +8,52 @@ on:
       - 'Formula/**'
 
 jobs:
+  verify-sha256:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v40
+        with:
+          files: |
+            Formula/**
+            Casks/**
+
+      - name: Verify SHA256
+        if: steps.changed-files.outputs.all_changed_files != ''
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            if [[ $file == Formula/* ]] || [[ $file == Casks/* ]]; then
+              echo "Verifying SHA256 for $file"
+              # 提取 url 和 sha256
+              while IFS= read -r line; do
+                if [[ $line =~ url[[:space:]]*\"([^\"]*)\" ]]; then
+                  url="${BASH_REMATCH[1]}"
+                  # 如果 URL 包含变量，跳过验证
+                  if [[ $url != *"#{version}"* && $url != *"#{arch}"* ]]; then
+                    echo "Checking URL: $url"
+                    actual_sha256=$(curl -sL "$url" | shasum -a 256 | cut -d ' ' -f 1)
+                    # 获取文件中声明的 sha256
+                    next_line=$(sed -n "$((NR+1))p" <<< "$(cat "$file")")
+                    if [[ $next_line =~ sha256[[:space:]]*\"([^\"]*)\" ]]; then
+                      declared_sha256="${BASH_REMATCH[1]}"
+                      if [[ "$actual_sha256" != "$declared_sha256" ]]; then
+                        echo "::error::SHA256 mismatch in $file"
+                        echo "::error::Declared: $declared_sha256"
+                        echo "::error::Actual: $actual_sha256"
+                        exit 1
+                      fi
+                    fi
+                  fi
+                fi
+              done < "$file"
+            fi
+          done
+
   test-install:
+    needs: verify-sha256
     runs-on: macos-latest
     steps:
       - name: Get changed files
