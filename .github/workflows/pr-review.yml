@@ -1,0 +1,66 @@
+name: PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize]
+    paths:
+      - 'Casks/**'
+      - 'Formula/**'
+
+jobs:
+  test-install:
+    runs-on: macos-latest
+    steps:
+      - name: Get changed files
+        id: changed-files
+        uses: tj-actions/changed-files@v40
+        with:
+          files: |
+            Casks/**
+            Formula/**
+
+      - name: Setup Homebrew
+        run: |
+          brew update
+          brew tap samzong/tap https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
+
+      - name: Test installation
+        if: steps.changed-files.outputs.all_changed_files != ''
+        run: |
+          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+            if [[ $file == Casks/* ]]; then
+              APP_NAME=$(basename "$file" .rb)
+              echo "Testing cask: $APP_NAME"
+              brew install --cask samzong/tap/$APP_NAME || {
+                echo "::error::Failed to install cask: $APP_NAME"
+                exit 1
+              }
+            elif [[ $file == Formula/* ]]; then
+              APP_NAME=$(basename "$file" .rb)
+              echo "Testing formula: $APP_NAME"
+              brew install samzong/tap/$APP_NAME || {
+                echo "::error::Failed to install formula: $APP_NAME"
+                exit 1
+              }
+            fi
+          done
+
+      - name: Add PR comment
+        if: always()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const outcome = '${{ job.status }}' === 'success' ? '✅' : '❌';
+            const body = `### 安装测试结果: ${outcome}
+
+            测试环境：macOS Latest
+            测试时间：${new Date().toISOString()}
+
+            ${outcome === '✅' ? '所有应用安装测试通过！' : '安装测试失败，请检查日志。'}`;
+            
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.name,
+              body: body
+            });
