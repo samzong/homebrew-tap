@@ -68,6 +68,8 @@ jobs:
         run: |
           brew update
           brew tap samzong/tap https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
+          cd $(brew --repository samzong/tap)
+          git checkout ${{ github.event.pull_request.head.sha }}
 
       - name: Test installation
         if: steps.changed-files.outputs.all_changed_files != ''
