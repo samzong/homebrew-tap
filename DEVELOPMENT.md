@@ -28,6 +28,7 @@ git checkout -b update-APP_NAME-VERSION
 #### Cask 应用（GUI 应用）
 
 更新 `Casks/APP_NAME.rb` 文件中的以下字段：
+
 ```ruby
 version "NEW_VERSION"
 sha256 "NEW_SHA256"
@@ -35,6 +36,7 @@ url "NEW_DOWNLOAD_URL"
 ```
 
 计算 SHA256 值：
+
 ```bash
 # 本地文件计算
 shasum -a 256 APP_NAME.dmg
@@ -46,6 +48,7 @@ curl -sL "DOWNLOAD_URL" | shasum -a 256
 #### Formula（命令行工具）
 
 更新 `Formula/APP_NAME.rb` 文件中的以下字段：
+
 ```ruby
 version "NEW_VERSION"
 sha256 "NEW_SHA256"
@@ -67,18 +70,22 @@ git push origin update-APP_NAME-VERSION
 3. 按以下格式填写 PR：
 
 标题格式：
-```
+
+```bash
 chore: update APP_NAME to vNEW_VERSION
 ```
 
 描述模板：
+
 ```markdown
 更新说明：
+
 - 版本：vNEW_VERSION
 - 下载链接：NEW_DOWNLOAD_URL
 - SHA256：NEW_SHA256
 
 变更内容：
+
 - [ ] 版本号更新
 - [ ] 下载链接更新
 - [ ] SHA256 更新
@@ -134,6 +141,7 @@ echo "Done! PR URL: https://github.com/samzong/homebrew-tap/compare/main...$(git
 ```
 
 使用方法：
+
 ```bash
 chmod +x update-app.sh
 ./update-app.sh hf-model-downloader 0.0.4 https://github.com/samzong/hf-downloader/releases/download/v0.0.4/app.dmg
@@ -169,7 +177,7 @@ jobs:
         with:
           repository: samzong/homebrew-tap
           token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
-          fetch-depth: 0  # 完整历史用于分支创建
+          fetch-depth: 0 # 完整历史用于分支创建
 
       # Git 配置
       - name: Setup Git
@@ -185,11 +193,11 @@ jobs:
           VERSION="${{ github.event.release.tag_name }}"
           VERSION="${VERSION#v}"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
-          
+
           # 获取下载链接（示例：.dmg 文件）
           DOWNLOAD_URL=$(echo '${{ toJson(github.event.release.assets) }}' | jq -r '.[] | select(.name | endswith(".dmg")) | .browser_download_url')
           echo "download_url=$DOWNLOAD_URL" >> $GITHUB_OUTPUT
-          
+
           # 计算 SHA256
           curl -sL "$DOWNLOAD_URL" | shasum -a 256 | cut -d ' ' -f 1 > sha256.txt
           echo "sha256=$(cat sha256.txt)" >> $GITHUB_OUTPUT
@@ -204,7 +212,7 @@ jobs:
       - name: Update file
         run: |
           APP_NAME="${{ github.event.repository.name }}"
-          
+
           # 定位目标文件
           if [ -f "Casks/$APP_NAME.rb" ]; then
               FILE="Casks/$APP_NAME.rb"
@@ -214,7 +222,7 @@ jobs:
               echo "Error: Cannot find $APP_NAME.rb"
               exit 1
           fi
-          
+
           # 更新内容
           sed -i "s/version \".*\"/version \"${{ steps.release.outputs.version }}\"/" "$FILE"
           sed -i "s|url \".*\"|url \"${{ steps.release.outputs.download_url }}\"|" "$FILE"
@@ -232,16 +240,17 @@ jobs:
             - 版本：v${{ steps.release.outputs.version }}
             - 下载链接：${{ steps.release.outputs.download_url }}
             - SHA256：${{ steps.release.outputs.sha256 }}
-            
+
             变更内容：
             - [x] 版本号更新
             - [x] 下载链接更新
             - [x] SHA256 更新
-            
+
             由 GitHub Action 自动创建
           branch: update-${{ github.event.repository.name }}-${{ steps.release.outputs.version }}
           base: main
           delete-branch: true
+```
 
 #### 3. 配置说明
 
@@ -257,4 +266,4 @@ jobs:
 
 - PAT Token 需要具备足够的仓库权限
 - 根据实际发布格式（dmg/zip 等）调整下载 URL 获取逻辑
-- PR 模板可按需调整 
+- PR 模板可按需调整
