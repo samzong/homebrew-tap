@@ -14,9 +14,9 @@ brew tap samzong/tap
 
 | Application Name | Type | Description | Latest Version | Last Updated |
 |-----------------|------|-------------|----------------|--------------|
-| HF Model Downloader | GUI App | A cross-platform GUI application for easily downloading Hugging Face models | 0.0.3 | 2025-01-17 |
-| Mac Music Player | GUI App | A modern music player for macOS | 0.1.5 | 2025-01-17 |
-| mdctl | CLI Tool | A command-line tool for managing markdown files | 0.0.1 | 2025-01-17 |
+| HF Model Downloader | GUI App | A cross-platform GUI application for easily downloading Hugging Face models | v0.0.4 | 2025-03-04 |
+| Mac Music Player | GUI App | A modern music player for macOS | v0.1.7 | 2025-02-21 |
+| mdctl | CLI Tool | A command-line tool for managing markdown files | v0.0.10 | 2025-02-25 |
 
 ## Usage
 
