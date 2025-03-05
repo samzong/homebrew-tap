@@ -14,9 +14,9 @@ brew tap samzong/tap
 
 | 应用名称 | 类型 | 描述 | 最新版本 | 最近更新 |
 |---------|------|------|----------|----------|
-| HF Model Downloader | GUI 应用 | 一个跨平台的 GUI 应用程序，用于轻松下载 Hugging Face 模型 | 0.0.3 | 2025-01-17 |
-| Mac Music Player | GUI 应用 | 一个现代化的 macOS 音乐播放器 | 0.1.5 | 2025-01-17 |
-| mdctl | 命令行工具 | 一个用于管理 Markdown 文件的命令行工具 | 0.0.1 | 2025-01-17 |
+| HF Model Downloader | GUI 应用 | 一个跨平台的 GUI 应用程序，用于轻松下载 Hugging Face 模型 | v0.0.4 | 2025-03-04 |
+| Mac Music Player | GUI 应用 | 一个现代化的 macOS 音乐播放器 | v0.1.7 | 2025-02-21 |
+| mdctl | 命令行工具 | 一个用于管理 Markdown 文件的命令行工具 | v0.0.10 | 2025-02-25 |
 
 ## 使用方法
 
