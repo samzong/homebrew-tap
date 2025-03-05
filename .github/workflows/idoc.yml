@@ -30,6 +30,9 @@ jobs:
           element:
             wrapper: style=max-width:720px;
 
+          sideEffectFiles:
+            - README_zh.md
+
           menus:
             Home: index.html
             About:
