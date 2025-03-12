@@ -1,16 +1,19 @@
 cask "mac-music-player" do
-  version "0.2.1"
-
-  url "https://github.com/samzong/MacMusicPlayer/releases/download/v#{version}/MacMusicPlayer.dmg"
-  sha256 "7fcdb71c7817ed55a9aa26ee0e6296b31e997381c562716d5ab4bb188f2ea989"
+  app "MacMusicPlayer.app"
+  version "0.2.2"
 
   name "MacMusicPlayer"
   desc "A simple and elegant music player for macOS"
   homepage "https://github.com/samzong/MacMusicPlayer"
-
   auto_updates true
 
-  app "MacMusicPlayer.app"
+  if Hardware::CPU.arm?
+    url "https://github.com/samzong/MacMusicPlayer/releases/download/v#{version}/MacMusicPlayer-ARM64.dmg"
+    sha256 "4389fa16da846974a5352fd9200b5d9d9c98aca765ce581536facf5a2729d834"
+  else
+    url "https://github.com/samzong/MacMusicPlayer/releases/download/v#{version}/MacMusicPlayer-Intel.dmg"
+    sha256 "70b7fae2f9de0c62360400d0934138722ebab30b595c3ba2aef57758e660dd4b"
+  end
 
   zap trash: [
     "~/Library/Application Support/MacMusicPlayer",
@@ -18,4 +21,4 @@ cask "mac-music-player" do
     "~/Library/Saved Application State/com.samzong.macmusicplayer.savedState",
     "~/Library/Caches/com.samzong.macmusicplayer",
   ]
-end 
+end
