@@ -9,10 +9,10 @@ cask "configforge" do
 
   if Hardware::CPU.arm?
     url "https://github.com/samzong/MacMusicPlayer/releases/download/v#{version}/ConfigForge-arm64.dmg"
-    sha256 "5ed7a1d55bc7ef457da00ab17eb0a533f0120419236eb548168adb6ab5cbedc9"
+    sha256 "d28900f29a753263675001e34246c4b58bb4676d49e475324b67fb0803cea775"
   else
     url "https://github.com/samzong/MacMusicPlayer/releases/download/v#{version}/ConfigForge-x86_64.dmg"
-    sha256 "6cf0aa4316394954705a8cf0be8c366fe433659b2ec8a9b2bceefbe0e5512a48"
+    sha256 "c5a03673b6d693eadb97368b5ebed04b468185b3939c0dceed8449d58ad70b2d"
   end
 
   zap trash: [
