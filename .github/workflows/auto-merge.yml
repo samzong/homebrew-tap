@@ -42,14 +42,14 @@ jobs:
             
             // Check if PR is mergeable
             // mergeable can be null if GitHub hasn't computed mergeability yet
-            const checkMergeabilityWithBackoff = async (retries, delay) => {
+            const checkMergeabilityWithBackoff = async (retries, delay, maxDelay) => {
               for (let i = 0; i < retries; i++) {
                 if (pr.data.mergeable !== null) {
                   return pr.data.mergeable;
                 }
                 console.log(`PR #${prNumber} mergeability is still being computed. Waiting for ${delay}ms...`);
                 await new Promise(resolve => setTimeout(resolve, delay));
-                delay *= 2; // Exponential backoff
+                delay = Math.min(delay * 2, maxDelay); // Exponential backoff with upper limit
                 const updatedPr = await github.rest.pulls.get({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
