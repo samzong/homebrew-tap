@@ -71,15 +71,6 @@ jobs:
                 body: '⚠️ Automatic merge failed: This PR cannot be merged at the moment. Please resolve the conflicts and try again.'
               });
               return;
-            } else if (!mergeable) {
-              console.log(`PR #${prNumber} is not mergeable.`);
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: prNumber,
-                body: '⚠️ Automatic merge failed: This PR cannot be merged at the moment. Please resolve the conflicts and try again.'
-              });
-              return;
             }
             
             // Check if all checks have passed
