@@ -1,6 +1,6 @@
 cask "configforge" do
   app "ConfigForge.app"
-  version "0.0.4"
+  version "0.0.5"
 
   name "ConfigForge"
   desc "ConfigForge is an open-source SSH configuration management tool for macOS."
@@ -9,10 +9,10 @@ cask "configforge" do
 
   if Hardware::CPU.arm?
     url "https://github.com/samzong/ConfigForge/releases/download/v#{version}/ConfigForge-arm64.dmg"
-    sha256 "54cbd33ea36c3b37bcfb39951efb2847ea88eda4359a793d54685e7904a6fd53"
+    sha256 "88cd0f27c3759626bcd5d33673a94b710f99dec0fb8c8575e584ebc9545f67a9"
   else
     url "https://github.com/samzong/ConfigForge/releases/download/v#{version}/ConfigForge-x86_64.dmg"
-    sha256 "37fc805e38ee8b334ea2f93d9e143ee61e7372917a784821173fb1ad5a94b866"
+    sha256 "b0845f0e6dd535b61dcdbb3c9e8451dfd72d7baacf017528424399de3d9944c6"
   end
 
   zap trash: [
