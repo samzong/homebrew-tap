@@ -15,6 +15,8 @@ cask "configforge" do
     sha256 "ab479c2ee0537fc88f3cbac7401c86ae6873c21f4e6bebbee7a43708f2314b90"
   end
 
+  binary "#{appdir}/ConfigForge.app/Contents/Resources/bin/cf"
+  
   zap trash: [
     "~/Library/Application Support/ConfigForge",
     "~/Library/Preferences/com.samzong.configforge.plist",
