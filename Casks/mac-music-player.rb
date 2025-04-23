@@ -1,6 +1,6 @@
 cask "mac-music-player" do
   app "MacMusicPlayer.app"
-  version "0.2.5"
+  version "0.2.6"
 
   name "MacMusicPlayer"
   desc "A simple and elegant music player for macOS"
@@ -9,10 +9,10 @@ cask "mac-music-player" do
 
   if Hardware::CPU.arm?
     url "https://github.com/samzong/MacMusicPlayer/releases/download/v#{version}/MacMusicPlayer-arm64.dmg"
-    sha256 "5ed7a1d55bc7ef457da00ab17eb0a533f0120419236eb548168adb6ab5cbedc9"
+    sha256 "6fb7e2d22fe7837cddc96e03e47c9e54e9829f1ee66a6cecc70648d8c3d4f064"
   else
     url "https://github.com/samzong/MacMusicPlayer/releases/download/v#{version}/MacMusicPlayer-x86_64.dmg"
-    sha256 "6cf0aa4316394954705a8cf0be8c366fe433659b2ec8a9b2bceefbe0e5512a48"
+    sha256 "a44b2471e6ddb797fa29bf6e0a490311482bb816aeeba2c88440cd5e8ad4a8c5"
   end
 
   zap trash: [
