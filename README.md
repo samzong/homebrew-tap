@@ -1,6 +1,10 @@
 # Samzong's Homebrew Tap
 
-This is a custom Homebrew tap for my personal applications and tools.
+<div align="center">
+  <img src="https://brew.sh/assets/img/homebrew.svg" alt="homebrew-tap logo" width="100" />
+  <br />
+  <p>This is a custom Homebrew tap for my personal applications and tools.</p>
+</div>
 
 ## Usage
 
@@ -20,7 +24,7 @@ brew install mdctl
 
 | Application Name    | Type     | Description                                                                 | Latest Version |
 | ------------------- | -------- | --------------------------------------------------------------------------- | -------------- |
-| ConfigForge         | GUI App  | ConfigForge is an open-source SSH configuration management tool for macOS   | v0.0.3         |
+| ConfigForge         | GUI App  | ConfigForge is an open-source SSH configuration management tool for macOS   | v0.0.9         |
 | HF Model Downloader | GUI App  | A cross-platform GUI application for easily downloading Hugging Face models | v0.0.4         |
 | Mac Music Player    | GUI App  | A modern music player for macOS                                             | v0.2.5         |
 | mdctl               | CLI Tool | A command-line tool for managing markdown files                             | v0.1.0         |
