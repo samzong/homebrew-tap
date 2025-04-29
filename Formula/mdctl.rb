@@ -1,25 +1,25 @@
 class Mdctl < Formula
   desc "A CLI tool for managing markdown files"
   homepage "https://github.com/samzong/mdctl"
-  version "0.1.0"
+  version "0.1.1"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/mdctl/releases/download/v#{version}/mdctl_Darwin_arm64.tar.gz"
-      sha256 "231064dce55a6de51c41b6254a43f07762f44532cbb020ab808b4ae38ed931eb"
+      sha256 "9114c4d65dae19afffcd68e82c9e3e67a090c7a1dd5867fcf2e7f0f85acd4969"
     else
       url "https://github.com/samzong/mdctl/releases/download/v#{version}/mdctl_Darwin_x86_64.tar.gz"
-      sha256 "29da5846e97fe28592dbc9f909304ef912905e489098e68c4f332ef1cd3cd4c4"
+      sha256 "29c77ca5da3f53c3fb547ff883a89f9a85e509b9cdcbf3ff3d680143443438d0"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/mdctl/releases/download/v#{version}/mdctl_Linux_arm64.tar.gz"
-      sha256 "c160390810e79ef0b35888538f0a8b0bf1b8da5ca5ea0af77257ecc8c80f8a22"
+      sha256 "fef156f38ef04f8bfad03451083169d159ae57deaa56e8ff3f6ab890b303bf93"
     else
       url "https://github.com/samzong/mdctl/releases/download/v#{version}/mdctl_Linux_x86_64.tar.gz"
-      sha256 "ed0e00e05090710bc2b75586a1fe6cf750ae5b2c2792fedc0db2d452ab7c7010"
+      sha256 "88508efa6f042d2b52c72ae7d889dde7e9cac82917519a61fe3ce12a11d6eaaa"
     end
   end
 
