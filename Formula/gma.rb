@@ -1,25 +1,25 @@
 class Gma < Formula
   desc "A CLI tool for managing markdown files"
   homepage "https://github.com/samzong/gma"
-  version "0.0.0"
+  version "0.0.1"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/gma/releases/download/v#{version}/gma_Darwin_arm64.tar.gz"
-      sha256 "9114c4d65dae19afffcd68e82c9e3e67a090c7a1dd5867fcf2e7f0f85acd4969"
+      sha256 "892af3d54afda87193b28dac8dd9199e9435b597a0c71f949cfc46c36924855a"
     else
       url "https://github.com/samzong/gma/releases/download/v#{version}/gma_Darwin_x86_64.tar.gz"
-      sha256 "29c77ca5da3f53c3fb547ff883a89f9a85e509b9cdcbf3ff3d680143443438d0"
+      sha256 "15369d6f26aba72e76bdcca5152b900d892eb9bd310969559ab10948db3687d9"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/gma/releases/download/v#{version}/gma_Linux_arm64.tar.gz"
-      sha256 "fef156f38ef04f8bfad03451083169d159ae57deaa56e8ff3f6ab890b303bf93"
+      sha256 "2afed70eae0fcd17f6e5de29626a5ac506d13c40663293227576e2b2fadbc8d6"
     else
       url "https://github.com/samzong/gma/releases/download/v#{version}/gma_Linux_x86_64.tar.gz"
-      sha256 "88508efa6f042d2b52c72ae7d889dde7e9cac82917519a61fe3ce12a11d6eaaa"
+      sha256 "ef2e08d9a00421aae58fef749dbb3f77d3c45b1e3f2839b6d6a2a5d1d7045550"
     end
   end
 
