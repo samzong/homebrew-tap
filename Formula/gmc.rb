@@ -1,25 +1,25 @@
 class Gmc < Formula
   desc "A CLI tool for managing markdown files"
   homepage "https://github.com/samzong/gmc"
-  version "0.0.1"
+  version "0.0.2"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/gmc/releases/download/v#{version}/gmc_Darwin_arm64.tar.gz"
-      sha256 "3e9f5b99db9e1d742415ae1581898bafccd027c81d5e6d32396671ece525ad80"
+      sha256 "f980857b2231865a11e640d4a5be3fea1182cb56c95ee70e4759b2041e462a10"
     else
       url "https://github.com/samzong/gmc/releases/download/v#{version}/gmc_Darwin_x86_64.tar.gz"
-      sha256 "120bb1c49069d98e77009f10ccdcea6cea6b04b44f4006afd81e770f21c6e3f8"
+      sha256 "691fc452f73174dd4daa4c0440c88b08c6c08a3bcd1efe1cfa3c78f389722823"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/gmc/releases/download/v#{version}/gmc_Linux_arm64.tar.gz"
-      sha256 "a335a2b934af83eeba415355ddc7406ab672117b3c7d0a5a4f48b64634561b0a"
+      sha256 "e44431893b6dc61d4ea896615c84ed683fe9c2f99ddd7113cc6d296b77e8c16f"
     else
       url "https://github.com/samzong/gmc/releases/download/v#{version}/gmc_Linux_x86_64.tar.gz"
-      sha256 "dc1be5173873f9832ad8988af2d73cd39acf449a440dbeda066d704be6ea84b6"
+      sha256 "2dd2b06fda3e98278182708a762a2cdfb4df827bd20cd461b09fb757f7072e85"
     end
   end
 
