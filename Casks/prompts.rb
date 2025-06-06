@@ -3,10 +3,10 @@ cask "prompts" do
   
     if Hardware::CPU.arm?
       url "https://github.com/samzong/prompts/releases/download/v#{version}/Prompts_#{version}_aarch64.dmg"
-      sha256 "sha256:c3cc63551e3e94f6f5f88c3ed2e96877eb8e8fcf02dc3115a27953f707aba35e"
+      sha256 "c3cc63551e3e94f6f5f88c3ed2e96877eb8e8fcf02dc3115a27953f707aba35e"
     else
       url "https://github.com/samzong/prompts/releases/download/v#{version}/Prompts_#{version}_x64.dmg"
-      sha256 "sha256:42ca2db4726e6348767f2bba89f775a54379a26eabf699a3e5a34a3c2bac1c71"
+      sha256 "42ca2db4726e6348767f2bba89f775a54379a26eabf699a3e5a34a3c2bac1c71"
     end
   
     name "Prompts"
