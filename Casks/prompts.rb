@@ -1,12 +1,12 @@
 cask "prompts" do
-    version "0.1.1"
+    version "0.1.5"
   
     if Hardware::CPU.arm?
       url "https://github.com/samzong/prompts/releases/download/v#{version}/Prompts_#{version}_aarch64.dmg"
-      sha256 "7634439596857292b08300a6aab5468501973c7a764a9d402ad92d6cdcf872cb"
+      sha256 "cbed1660698bf601c8e1d48d395f01b267fea6073b0d5080eeca769f6ca91927"
     else
       url "https://github.com/samzong/prompts/releases/download/v#{version}/Prompts_#{version}_x64.dmg"
-      sha256 "e67fedbe6b284f6d748079b250889ba4b8049597200dfb6e298e9c50ef1d4501"
+      sha256 "a830201c164c5a191fc96800da6e01ba65b76f483f4ef9ee5d1eff8222484e69"
     end
   
     name "Prompts"
