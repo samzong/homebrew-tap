@@ -1,6 +1,6 @@
 cask "hf-model-downloader" do
   app "HF Model Downloader.app"
-  version "0.0.5"
+  version "0.0.6"
 
   name "HF Model Downloader"
   desc "A GUI tool for downloading Hugging Face models"
@@ -10,10 +10,10 @@ cask "hf-model-downloader" do
 
   if Hardware::CPU.arm?
     url "https://github.com/samzong/hf-model-downloader/releases/download/v#{version}/hf-model-downloader-arm64.dmg"
-    sha256 "5784d3d16cc286fbad723a239aabef4ea49a8ccc7cac86c515d210feb340b88a"
+    sha256 "80385b7a008ef378a1c8b364128584957bb84ecac7b6a5d8255dd8a5aa11d2cc"
   else
     url "https://github.com/samzong/hf-model-downloader/releases/download/v#{version}/hf-model-downloader-x86_64.dmg"
-    sha256 "2cd4baceee1c8549c1d0be764dc2ab3b7266433e89bb9c61a5497c15e345f9f6"
+    sha256 "627685831a39633671cecab9be2ba4bcb6020ed15e0351c8fb44a0664f494fa6"
   end
 
   zap trash: [
