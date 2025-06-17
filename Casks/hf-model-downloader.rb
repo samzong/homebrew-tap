@@ -16,6 +16,10 @@ cask "hf-model-downloader" do
     sha256 "627685831a39633671cecab9be2ba4bcb6020ed15e0351c8fb44a0664f494fa6"
   end
 
+  postflight do
+    system_command "xattr", args: ["-cr", "#{appdir}/HF Model Downloader.app"]
+  end
+
   zap trash: [
     "~/Library/Application Support/HF Model Downloader",
     "~/Library/Preferences/com.samzong.hf-model-downloader.plist",

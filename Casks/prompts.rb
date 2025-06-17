@@ -19,6 +19,10 @@ cask "prompts" do
     end
   
     app "Prompts.app"
+
+    postflight do
+        system_command "xattr", args: ["-cr", "#{appdir}/#{app}"]
+    end
   
     zap trash: [
       "~/Library/Application Support/com.samzong.prompts",

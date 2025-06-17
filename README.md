@@ -35,6 +35,15 @@ brew install mdctl
 - `man brew`
 - [Homebrew's documentation](https://docs.brew.sh)
 
+### Cask App Unsigned
+
+```ruby
+  # other install step
+  postflight do
+    system_command "xattr", args: ["-cr", "#{appdir}/Prompts.app"]
+  end
+```
+
 ## License
 
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.

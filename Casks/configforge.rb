@@ -16,6 +16,10 @@ cask "configforge" do
   end
 
   binary "#{appdir}/ConfigForge.app/Contents/Resources/bin/cf"
+
+  postflight do
+    system_command "xattr", args: ["-cr", "#{appdir}/ConfigForge.app"]
+  end
   
   zap trash: [
     "~/Library/Application Support/ConfigForge",

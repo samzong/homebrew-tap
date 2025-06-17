@@ -18,6 +18,10 @@ cask "mac-music-player" do
 
   app "MacMusicPlayer.app"
 
+  postflight do
+    system_command "xattr", args: ["-cr", "#{appdir}/MacMusicPlayer.app"]
+  end
+
   zap trash: [
     "~/Library/Application Support/MacMusicPlayer",
     "~/Library/Preferences/com.samzong.macmusicplayer.plist",
