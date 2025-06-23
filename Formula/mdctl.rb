@@ -1,5 +1,5 @@
 class Mdctl < Formula
-  desc "A CLI tool for managing markdown files"
+  desc "CLI tool for managing markdown files"
   homepage "https://github.com/samzong/mdctl"
   version "0.1.1"
 
@@ -30,4 +30,4 @@ class Mdctl < Formula
   test do
     system "#{bin}/mdctl", "--version"
   end
-end 
+end

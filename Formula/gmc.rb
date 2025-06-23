@@ -1,5 +1,5 @@
 class Gmc < Formula
-  desc "A CLI tool for managing markdown files"
+  desc "CLI for that accelerates the efficiency of Git add and commit"
   homepage "https://github.com/samzong/gmc"
   version "0.0.4"
 
@@ -30,4 +30,4 @@ class Gmc < Formula
   test do
     system "#{bin}/gmc", "--version"
   end
-end 
+end
