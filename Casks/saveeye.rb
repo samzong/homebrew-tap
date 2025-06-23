@@ -1,5 +1,5 @@
 cask "saveeye" do
-  version "1.0.7"
+  version "1.0.9"
 
   name "SaveEye"
   desc "minimalist eye care reminder app"
@@ -16,7 +16,7 @@ cask "saveeye" do
 
   on_arm do
     url "https://github.com/samzong/SaveEye/releases/download/v#{version}/SaveEye-#{version}-arm64.dmg"
-    sha256 "0b21a6fee22f4bdc5d53f53a89731ad01b7222fe8f79ac238fd8dd6b0f4713db"
+    sha256 "5bf502adee1b50888913488838d03bed851314087474264ebc9ac150f8429a8b"
   end
 
   app "SaveEye.app"
