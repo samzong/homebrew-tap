@@ -19,11 +19,6 @@ cask "saveeye" do
     sha256 "54d5e61397c9c1759fe6d5e4ded627f3920a58cb9529b479c7de7f3fdc4c7682"
   end
 
-  on_intel do
-    url "https://github.com/samzong/SaveEye/releases/download/v#{version}/SaveEye-#{version}-x86_64.dmg"
-    sha256 "54d5e61397c9c1759fe6d5e4ded627f3920a58cb9529b479c7de7f3fdc4c7682"
-  end
-
   postflight do
     system_command "xattr", args: ["-cr", "#{appdir}/SaveEye.app"]
   end
