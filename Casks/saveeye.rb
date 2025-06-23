@@ -1,5 +1,5 @@
 cask "saveeye" do
-  version "1.0.3"
+  version "1.0.5"
 
   name "SaveEye"
   desc "minimalist eye care reminder app"
