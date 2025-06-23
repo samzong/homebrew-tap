@@ -19,6 +19,8 @@ cask "saveeye" do
     sha256 "0b21a6fee22f4bdc5d53f53a89731ad01b7222fe8f79ac238fd8dd6b0f4713db"
   end
 
+  app "SaveEye.app"
+
   postflight do
     system_command "xattr", args: ["-cr", "#{appdir}/SaveEye.app"]
   end
