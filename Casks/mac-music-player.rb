@@ -1,5 +1,5 @@
 cask "mac-music-player" do
-  version "0.4.0"
+  version "Dev-4d1ca99"
   on_arm do
     url "https://github.com/samzong/MacMusicPlayer/releases/download/v#{version}/MacMusicPlayer-arm64.dmg"
     sha256 "941495a0c49f990be8894237bd3f4fe20be213e2afa5305479b3da45e556a669"
