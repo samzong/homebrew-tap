@@ -27,7 +27,7 @@ class Mm < Formula
     bin.install "mm"
   end
 
-  depends_on formula: ["gh"]
+  depends_on "gh"
 
   test do
     system "#{bin}/mm", "--version"
