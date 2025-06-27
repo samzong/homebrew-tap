@@ -1,4 +1,4 @@
-class mm < Formula
+class Mm < Formula
   desc "CLI for that help you fast to contribution to projects."
   homepage "https://github.com/samzong/mm"
   version "0.0.1"
