@@ -1,25 +1,25 @@
 class Mm < Formula
   desc "CLI for that help you fast to contribution to projects."
   homepage "https://github.com/samzong/mm"
-  version "0.0.2"
+  version "0.0.3"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/mm/releases/download/v#{version}/mm_Darwin_arm64.tar.gz"
-      sha256 "f4d92305bbcd5e775c7dd5db5ef1643eaa1becca676468fb77ed1f3686ccace7"
+      sha256 "6d3cb92506fae8b71b6812c818431c585a20e7c37d766c20ff6813bbf8e8b718"
     else
       url "https://github.com/samzong/mm/releases/download/v#{version}/mm_Darwin_x86_64.tar.gz"
-      sha256 "4fdfe4339a74af4ef74fdda9778556440edd9854da4f0b727fc6c9b777783815"
+      sha256 "62bcb075c260e0d991ee8d2f7dab754f3f16b87c23d70c7d89130409ccfd8e78"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/mm/releases/download/v#{version}/mm_Linux_arm64.tar.gz"
-      sha256 "3597ccc555ed79369d0018bb194e9720f04cbd82291c7707a6de6f90e62ac594"
+      sha256 "713ac452e90c43b6fad336882832a46a0bddf323e76536c6c07fcb570611fb26"
     else
       url "https://github.com/samzong/mm/releases/download/v#{version}/mm_Linux_x86_64.tar.gz"
-      sha256 "5ae656a901adf6afd5bef8bfc6c5922ace8825119df0dd6a491c18cb883d2935"
+      sha256 "ca2f4f4df797504ea0c963a96808b90a7ee11d8fadbe8b57348828ed9265cf9a"
     end
   end
 
