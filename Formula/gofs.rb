@@ -1,25 +1,25 @@
 class Gofs < Formula
   desc "A lightweight, fast HTTP file server written in Go."
   homepage "https://github.com/samzong/gofs"
-  version "0.1.0"
+  version "0.1.1"
 
   on_macos do
     if Hardware::CPU.arm?
-      url "https://github.com/samzong/gofs/releases/download/v#{version}/gofs-darwin-arm64"
-      sha256 "46a9d07644a71c7206f804a54e6ee4f7179e2ae1bb103c7aed6815a0e7529fbf"
+      url "https://github.com/samzong/gofs/releases/download/v#{version}/gofs_Darwin_arm64.tar.gz"
+      sha256 "5dd7440ebb8cf2920881576b86d187e8eba32cd1812a6c8f9e176430a0ad91a9"
     else
-      url "https://github.com/samzong/gofs/releases/download/v#{version}/gofs-darwin-amd64"
-      sha256 "8b14534b79dcf6a1bfc5d57a20ea7ce5eda54c36df69230e51e2af09f55638be"
+      url "https://github.com/samzong/gofs/releases/download/v#{version}/gofs_Darwin_x86_64.tar.gz"
+      sha256 "f97b4f09d6fb48a77770f44e83ec5024821e190e03f5d69dffb1f1d8ef7fd436"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
-      url "https://github.com/samzong/gofs/releases/download/v#{version}/gofs-linux-arm64"
-      sha256 "828b85f5ff07545d04f5c648f18478f8ee37e194e437698f8f60891af9760f51"
+      url "https://github.com/samzong/gofs/releases/download/v#{version}/gofs_Linux_arm64.tar.gz"
+      sha256 "d6ba41c9abe96a02cee25cf92560eabc4f6b7c1899fbad385b7ec7ecaf49dea1"
     else
-      url "https://github.com/samzong/gofs/releases/download/v#{version}/gofs-linux-amd64"
-      sha256 "575ad9f28ce60578c9e7765829ef434e67bfe0267749ebb280337389270c7508"
+      url "https://github.com/samzong/gofs/releases/download/v#{version}/gofs_Linux_x86_64.tar.gz"
+      sha256 "8ef4ac7a396eec309d110826011b8aeb3e2dcd1e15dfe5cda28eb4985fe223a5"
     end
   end
 
