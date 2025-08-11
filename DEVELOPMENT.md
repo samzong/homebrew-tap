@@ -1,33 +1,33 @@
-# 开发指南
+# Development Guide
 
-## 版本更新流程
+## Version Update Workflow
 
-本文档描述了更新 Cask 或 Formula 文件的标准流程。
+This document describes the standard process for updating Cask or Formula files.
 
-### 1. Fork 仓库
+### 1. Fork the Repository
 
-1. 访问 [samzong/homebrew-tap](https://github.com/samzong/homebrew-tap)
-2. 点击右上角的 "Fork" 按钮创建分支
+1. Visit https://github.com/samzong/homebrew-tap
+2. Click the "Fork" button in the top right to create your fork
 
-### 2. 克隆仓库
+### 2. Clone the Repository
 
 ```bash
 git clone https://github.com/samzong/homebrew-tap.git
 cd homebrew-tap
 ```
 
-### 3. 创建更新分支
+### 3. Create an Update Branch
 
 ```bash
 git checkout -b update-APP_NAME-VERSION
-# 示例：git checkout -b update-hf-model-downloader-0.0.4
+# Example: git checkout -b update-hf-model-downloader-0.0.4
 ```
 
-### 4. 更新文件内容
+### 4. Update File Contents
 
-#### Cask 应用（GUI 应用）
+#### Cask apps (GUI applications)
 
-更新 `Casks/APP_NAME.rb` 文件中的以下字段：
+Update the following fields in `Casks/APP_NAME.rb`:
 
 ```ruby
 version "NEW_VERSION"
@@ -35,19 +35,19 @@ sha256 "NEW_SHA256"
 url "NEW_DOWNLOAD_URL"
 ```
 
-计算 SHA256 值：
+Calculate the SHA256 checksum:
 
 ```bash
-# 本地文件计算
+# Calculate from a local file
 shasum -a 256 APP_NAME.dmg
 
-# 远程文件计算
+# Calculate from a remote file
 curl -sL "DOWNLOAD_URL" | shasum -a 256
 ```
 
-#### Formula（命令行工具）
+#### Formula (CLI tools)
 
-更新 `Formula/APP_NAME.rb` 文件中的以下字段：
+Update the following fields in `Formula/APP_NAME.rb`:
 
 ```ruby
 version "NEW_VERSION"
@@ -55,7 +55,7 @@ sha256 "NEW_SHA256"
 url "NEW_DOWNLOAD_URL"
 ```
 
-### 5. 提交更改
+### 5. Commit the Changes
 
 ```bash
 git add .
@@ -63,61 +63,61 @@ git commit -m "chore: update APP_NAME to vNEW_VERSION"
 git push origin update-APP_NAME-VERSION
 ```
 
-### 6. 创建 Pull Request
+### 6. Create a Pull Request
 
-1. 访问 Fork 的仓库
-2. 点击 "Compare & pull request" 按钮
-3. 按以下格式填写 PR：
+1. Go to your fork on GitHub
+2. Click "Compare & pull request"
+3. Fill in the PR using the following format:
 
-标题格式：
+Title format:
 
 ```bash
 chore: update APP_NAME to vNEW_VERSION
 ```
 
-描述模板：
+Description template:
 
 ```markdown
-更新说明：
+Update details:
 
-- 版本：vNEW_VERSION
-- 下载链接：NEW_DOWNLOAD_URL
-- SHA256：NEW_SHA256
+- Version: vNEW_VERSION
+- Download URL: NEW_DOWNLOAD_URL
+- SHA256: NEW_SHA256
 
-变更内容：
+Changes:
 
-- [ ] 版本号更新
-- [ ] 下载链接更新
-- [ ] SHA256 更新
+- [ ] Version updated
+- [ ] Download URL updated
+- [ ] SHA256 updated
 ```
 
-## 自动化工具
+## Automation Tools
 
-### 本地自动化脚本
+### Local Automation Script
 
-用于快速生成更新 PR 的自动化脚本：
+A shell script to quickly generate an update PR:
 
 ```bash
 #!/bin/bash
 
-# 使用方法：./update-app.sh app-name 1.0.0 https://example.com/download/app-1.0.0.dmg
+# Usage: ./update-app.sh app-name 1.0.0 https://example.com/download/app-1.0.0.dmg
 APP_NAME=$1
 VERSION=$2
 DOWNLOAD_URL=$3
 
-# 参数校验
+# Validate arguments
 if [ -z "$APP_NAME" ] || [ -z "$VERSION" ] || [ -z "$DOWNLOAD_URL" ]; then
     echo "Usage: ./update-app.sh app-name version download-url"
     exit 1
 fi
 
-# 计算 SHA256
+# Calculate SHA256
 SHA256=$(curl -sL "$DOWNLOAD_URL" | shasum -a 256 | cut -d ' ' -f 1)
 
-# 创建更新分支
+# Create update branch
 git checkout -b update-$APP_NAME-$VERSION
 
-# 定位目标文件
+# Locate target file
 if [ -f "Casks/$APP_NAME.rb" ]; then
     FILE="Casks/$APP_NAME.rb"
 elif [ -f "Formula/$APP_NAME.rb" ]; then
@@ -127,12 +127,12 @@ else
     exit 1
 fi
 
-# 更新文件内容
+# Update file contents
 sed -i '' "s/version \".*\"/version \"$VERSION\"/" "$FILE"
 sed -i '' "s|url \".*\"|url \"$DOWNLOAD_URL\"|" "$FILE"
 sed -i '' "s/sha256 \".*\"/sha256 \"$SHA256\"/" "$FILE"
 
-# 提交变更
+# Commit changes
 git add "$FILE"
 git commit -m "chore: update $APP_NAME to v$VERSION"
 git push origin update-$APP_NAME-$VERSION
@@ -140,30 +140,30 @@ git push origin update-$APP_NAME-$VERSION
 echo "Done! PR URL: https://github.com/samzong/homebrew-tap/compare/main...$(git config user.name):update-$APP_NAME-$VERSION"
 ```
 
-使用方法：
+Usage:
 
 ```bash
 chmod +x update-app.sh
 ./update-app.sh hf-model-downloader 0.0.4 https://github.com/samzong/hf-downloader/releases/download/v0.0.4/app.dmg
 ```
 
-### GitHub Action 自动更新
+### GitHub Action Auto-Update
 
-通过 GitHub Action 实现发布时自动更新 Homebrew Tap。
+Use GitHub Actions to automatically update the Homebrew Tap when you publish a release.
 
-#### 1. Token 配置
+#### 1. Token Setup
 
-1. 创建具有 `repo` 权限的 Personal Access Token (PAT)
-2. 在源代码仓库的 Settings -> Secrets 中添加 token，名称为 `HOMEBREW_TAP_TOKEN`
+1. Create a Personal Access Token (PAT) with `repo` permissions
+2. In your source repository, go to Settings -> Secrets and add the token as `HOMEBREW_TAP_TOKEN`
 
-#### 2. 工作流配置
+#### 2. Workflow Configuration
 
-在源代码仓库创建 `.github/workflows/update-homebrew.yml`：
+In your source repository, create `.github/workflows/update-homebrew.yml`:
 
 ```yaml
 name: Update Homebrew Tap
 
-# 触发条件：发布新版本
+# Trigger: when a new release is published
 on:
   release:
     types: [published]
@@ -172,48 +172,48 @@ jobs:
   update-tap:
     runs-on: ubuntu-latest
     steps:
-      # 检出 homebrew-tap 仓库
+      # Check out the homebrew-tap repository
       - uses: actions/checkout@v4
         with:
           repository: samzong/homebrew-tap
           token: ${{ secrets.HOMEBREW_TAP_TOKEN }}
-          fetch-depth: 0 # 完整历史用于分支创建
+          fetch-depth: 0 # full history for branch creation
 
-      # Git 配置
+      # Git configuration
       - name: Setup Git
         run: |
           git config user.name "GitHub Action"
           git config user.email "action@github.com"
 
-      # 获取发布信息
+      # Get release information
       - name: Get release info
         id: release
         run: |
-          # 提取版本号（移除 v 前缀）
+          # Extract version (remove 'v' prefix)
           VERSION="${{ github.event.release.tag_name }}"
           VERSION="${VERSION#v}"
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
-          # 获取下载链接（示例：.dmg 文件）
+          # Get download URL (example: .dmg asset)
           DOWNLOAD_URL=$(echo '${{ toJson(github.event.release.assets) }}' | jq -r '.[] | select(.name | endswith(".dmg")) | .browser_download_url')
           echo "download_url=$DOWNLOAD_URL" >> $GITHUB_OUTPUT
 
-          # 计算 SHA256
+          # Calculate SHA256
           curl -sL "$DOWNLOAD_URL" | shasum -a 256 | cut -d ' ' -f 1 > sha256.txt
           echo "sha256=$(cat sha256.txt)" >> $GITHUB_OUTPUT
 
-      # 创建更新分支
+      # Create update branch
       - name: Create branch
         run: |
           APP_NAME="${{ github.event.repository.name }}"
           git checkout -b update-$APP_NAME-${{ steps.release.outputs.version }}
 
-      # 更新文件
+      # Update the file
       - name: Update file
         run: |
           APP_NAME="${{ github.event.repository.name }}"
 
-          # 定位目标文件
+          # Locate target file
           if [ -f "Casks/$APP_NAME.rb" ]; then
               FILE="Casks/$APP_NAME.rb"
           elif [ -f "Formula/$APP_NAME.rb" ]; then
@@ -223,12 +223,12 @@ jobs:
               exit 1
           fi
 
-          # 更新内容
+          # Update contents
           sed -i "s/version \".*\"/version \"${{ steps.release.outputs.version }}\"/" "$FILE"
           sed -i "s|url \".*\"|url \"${{ steps.release.outputs.download_url }}\"|" "$FILE"
           sed -i "s/sha256 \".*\"/sha256 \"${{ steps.release.outputs.sha256 }}\"/" "$FILE"
 
-      # 创建 Pull Request
+      # Create Pull Request
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
@@ -236,34 +236,34 @@ jobs:
           commit-message: "chore: update ${{ github.event.repository.name }} to v${{ steps.release.outputs.version }}"
           title: "chore: update ${{ github.event.repository.name }} to v${{ steps.release.outputs.version }}"
           body: |
-            更新说明：
-            - 版本：v${{ steps.release.outputs.version }}
-            - 下载链接：${{ steps.release.outputs.download_url }}
-            - SHA256：${{ steps.release.outputs.sha256 }}
+            Update details:
+            - Version: v${{ steps.release.outputs.version }}
+            - Download URL: ${{ steps.release.outputs.download_url }}
+            - SHA256: ${{ steps.release.outputs.sha256 }}
 
-            变更内容：
-            - [x] 版本号更新
-            - [x] 下载链接更新
-            - [x] SHA256 更新
+            Changes:
+            - [x] Version updated
+            - [x] Download URL updated
+            - [x] SHA256 updated
 
-            由 GitHub Action 自动创建
+            Created automatically by GitHub Action
           branch: update-${{ github.event.repository.name }}-${{ steps.release.outputs.version }}
           base: main
           delete-branch: true
 ```
 
-#### 3. 配置说明
+#### 3. Notes
 
-1. 工作流文件位置：`.github/workflows/update-homebrew.yml`
-2. 触发条件：发布新版本时自动执行
-3. 自动化流程：
-   - 获取版本信息
-   - 计算文件 SHA256
-   - 创建更新分支
-   - 提交 PR
+1. Workflow file location: `.github/workflows/update-homebrew.yml`
+2. Trigger: automatically runs when a new release is published
+3. Automation flow:
+   - Retrieve release version
+   - Calculate asset SHA256
+   - Create an update branch
+   - Submit a PR
 
-#### 注意事项
+#### Caveats
 
-- PAT Token 需要具备足够的仓库权限
-- 根据实际发布格式（dmg/zip 等）调整下载 URL 获取逻辑
-- PR 模板可按需调整
+- The PAT must have sufficient repository permissions
+- Adjust the download URL selection logic based on your release asset format (dmg/zip/etc.)
+- You can customize the PR template as needed
