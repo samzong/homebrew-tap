@@ -27,15 +27,12 @@ jobs:
           for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
             if [[ $file == Formula/* ]] || [[ $file == Casks/* ]]; then
               echo "Verifying SHA256 for $file"
-              # 提取 url 和 sha256
               while IFS= read -r line; do
                 if [[ $line =~ url[[:space:]]*\"([^\"]*)\" ]]; then
                   url="${BASH_REMATCH[1]}"
-                  # 如果 URL 包含变量，跳过验证
                   if [[ $url != *"#{version}"* && $url != *"#{arch}"* ]]; then
                     echo "Checking URL: $url"
                     actual_sha256=$(curl -sL "$url" | shasum -a 256 | cut -d ' ' -f 1)
-                    # 获取文件中声明的 sha256
                     next_line=$(sed -n "$((NR+1))p" <<< "$(cat "$file")")
                     if [[ $next_line =~ sha256[[:space:]]*\"([^\"]*)\" ]]; then
                       declared_sha256="${BASH_REMATCH[1]}"
@@ -98,12 +95,12 @@ jobs:
         with:
           script: |
             const outcome = '${{ job.status }}' === 'success' ? '✅' : '❌';
-            const body = `### 安装测试结果: ${outcome}
+            const body = `### Installation Test Result: ${outcome}
 
-            测试环境：macOS Latest
-            测试时间：${new Date().toISOString()}
+            Test Environment: macOS Latest
+            Test Time: ${new Date().toISOString()}
 
-            ${outcome === '✅' ? '所有应用安装测试通过！' : '安装测试失败，请检查日志。'}`;
+            ${outcome === '✅' ? 'All applications installed successfully!' : 'Installation test failed, please check the logs.'}`;
             
             github.rest.issues.createComment({
               issue_number: context.issue.number,
