@@ -5,21 +5,21 @@
 class Gofs < Formula
   desc "A lightweight, fast HTTP file server written in Go"
   homepage "https://github.com/samzong/gofs"
-  version "0.2.6-test"
+  version "0.2.3"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/samzong/gofs/releases/download/v0.2.6-test/gofs_Darwin_x86_64.tar.gz"
-      sha256 "6fa0375bb963405c2701b2054a850a332c6e6817917159cb4dc02e43314e872b"
+      url "https://github.com/samzong/gofs/releases/download/v0.2.3/gofs_Darwin_x86_64.tar.gz"
+      sha256 "ab45ecfa566e2e734441d0a0de3c04dfb08600edd20928aed9e6830b8cd2fbef"
 
       def install
         bin.install "gofs"
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/samzong/gofs/releases/download/v0.2.6-test/gofs_Darwin_arm64.tar.gz"
-      sha256 "6c7ca392174651c552f5773e5210d74ce002bae241a6f67146e3e966c64b98f8"
+      url "https://github.com/samzong/gofs/releases/download/v0.2.3/gofs_Darwin_arm64.tar.gz"
+      sha256 "1806037ac56b9a8d655ae889473762165cb5ae4b2e86b9c0be19a7574b920488"
 
       def install
         bin.install "gofs"
@@ -29,15 +29,15 @@ class Gofs < Formula
 
   on_linux do
     if Hardware::CPU.intel? and Hardware::CPU.is_64_bit?
-      url "https://github.com/samzong/gofs/releases/download/v0.2.6-test/gofs_Linux_x86_64.tar.gz"
-      sha256 "6e26636fdaacc9986b1620d84864a736bb2bad2de4001b9753ff8e684f871c6f"
+      url "https://github.com/samzong/gofs/releases/download/v0.2.3/gofs_Linux_x86_64.tar.gz"
+      sha256 "2abf03acdc89135ff143ac99b3855982165ffda16f9909155a29f366c57ff633"
       def install
         bin.install "gofs"
       end
     end
     if Hardware::CPU.arm? and Hardware::CPU.is_64_bit?
-      url "https://github.com/samzong/gofs/releases/download/v0.2.6-test/gofs_Linux_arm64.tar.gz"
-      sha256 "2830b072f87f67273319685cf1d3f5d86d1acbfb8bbd347499bab1362663610a"
+      url "https://github.com/samzong/gofs/releases/download/v0.2.3/gofs_Linux_arm64.tar.gz"
+      sha256 "653b176df96cde32b25f9c8f2d6093c4c1b846a59f651405d5eaf9d728de4c17"
       def install
         bin.install "gofs"
       end
