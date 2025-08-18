@@ -21,7 +21,7 @@ cask "hf-model-downloader" do
 
   on_intel do
     url "https://github.com/samzong/hf-model-downloader/releases/download/v#{version}/hf-model-downloader-x86_64.dmg"
-    sha256 "43073c824c3427aeac933c330e118e541f7586ee2eccbf58c03981a406195f8c"
+    sha256 "2b8dfabf212df2346d8ed7c9aea9dd0807a393a15288a8acd61fbc7f518325f5"
   end
 
   app "HF Model Downloader.app"
