@@ -1,5 +1,5 @@
 cask "hf-model-downloader" do
-  version "0.5.1"
+  version "0.5.2"
 
   name "HF Model Downloader"
   desc "A GUI tool for downloading Hugging Face models"
@@ -16,12 +16,12 @@ cask "hf-model-downloader" do
 
   on_arm do
     url "https://github.com/samzong/hf-model-downloader/releases/download/v#{version}/hf-model-downloader-arm64.dmg"
-    sha256 "d5182f4c0b8222c0dd90dcbc70e32421888eb8461e862dfe4880bc57c0e8c8b8"
+    sha256 "c58cc376c2ea61196ec5303b03122d109db19bc567c5543a4c90dbcb5158edbc"
   end
 
   on_intel do
     url "https://github.com/samzong/hf-model-downloader/releases/download/v#{version}/hf-model-downloader-x86_64.dmg"
-    sha256 "9a225e30b6e68b26da75a4cff336cde9c7fd8d115110ca1f87ac542ab547039c"
+    sha256 "733d2d9ef743a0de15cc3be7e8aedfdd86e7d8676e63521f47a67046ba22a87c"
   end
 
   app "HF Model Downloader.app"
