@@ -1,5 +1,5 @@
 cask "configforge" do
-  version "0.1.0"
+  version "0.2.0"
 
   name "ConfigForge"
   desc "Open-source SSH configuration and Kubernetes configuration management tool"
@@ -16,12 +16,12 @@ cask "configforge" do
 
   on_arm do
     url "https://github.com/samzong/ConfigForge/releases/download/v#{version}/ConfigForge-arm64.dmg"
-    sha256 "28b92928e9c5258d230cdeda6d26d97458c488f4020ada837a4528caf2561262"
+    sha256 "26563af0964119e00ad2139bb3ac77c7d7681bc546f0e22bcb92051e42457e55"
   end
 
   on_intel do
     url "https://github.com/samzong/ConfigForge/releases/download/v#{version}/ConfigForge-x86_64.dmg"
-    sha256 "9d064b031d282318107acc5100a4ec51c904c8b9843f7d7f28bd01ebffbd3064"
+    sha256 "cbd2b0ddd9e27161f863c3f84a4c9b0649535e8332ed7d54d6044626d0130f43"
   end
 
   app "ConfigForge.app"
