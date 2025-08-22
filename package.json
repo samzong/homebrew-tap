@@ -1,0 +1,18 @@
+{
+  "name": "homebrew-tap-updater",
+  "version": "1.0.0",
+  "description": "Automated script to update README.md with latest app information from Casks and Formula",
+  "main": "update-readme.js",
+  "scripts": {
+    "update-readme": "node update-readme.js",
+    "update": "node update-readme.js",
+    "test": "node update-readme.js --dry-run"
+  },
+  "keywords": ["homebrew", "automation", "readme"],
+  "author": "samzong",
+  "license": "MIT",
+  "dependencies": {
+    "fs": "^0.0.1-security",
+    "path": "^0.12.7"
+  }
+}

@@ -2,4 +2,6 @@
 *.bottle.tar.gz
 *.bottle.json
 /vendor/
-/coverage/ 
+/coverage/
+node_modules/
+package-lock.json
