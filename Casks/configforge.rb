@@ -1,13 +1,13 @@
 cask "configforge" do
-  version "0.2.0"
+  version "0.2.1"
 
   on_arm do
-    sha256 "26563af0964119e00ad2139bb3ac77c7d7681bc546f0e22bcb92051e42457e55"
+    sha256 "ed076132dd1c0554471b9045df720ed8a01a8cda16bae353bf02960912810081"
 
     url "https://github.com/samzong/ConfigForge/releases/download/v#{version}/ConfigForge-arm64.dmg"
   end
   on_intel do
-    sha256 "cbd2b0ddd9e27161f863c3f84a4c9b0649535e8332ed7d54d6044626d0130f43"
+    sha256 "11880d52f3248e03ed20f9345c5b7c30a5cbbdbc5d28906d0e9a67d3d4bcbd0a"
 
     url "https://github.com/samzong/ConfigForge/releases/download/v#{version}/ConfigForge-x86_64.dmg"
   end
