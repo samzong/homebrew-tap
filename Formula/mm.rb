@@ -1,7 +1,9 @@
 class Mm < Formula
-  desc "CLI for that help you fast to contribution to projects."
+  desc "CLI for that help you fast to contribution to projects"
   homepage "https://github.com/samzong/mm"
   version "0.0.5"
+
+  depends_on "gh"
 
   on_macos do
     if Hardware::CPU.arm?
@@ -26,8 +28,6 @@ class Mm < Formula
   def install
     bin.install "mm"
   end
-
-  depends_on "gh"
 
   test do
     system "#{bin}/mm", "--version"

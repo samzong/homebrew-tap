@@ -1,30 +1,30 @@
 cask "saveeye" do
   version "1.0.12"
 
-  name "SaveEye"
-  desc "minimalist eye care reminder app"
-  homepage "https://github.com/samzong/SaveEye"
+  on_arm do
+    sha256 "6e468b090d4b99e909aacab61fbeb0d6bc5963555ff66cea56719f2e19e51e01"
 
-  auto_updates true
+    url "https://github.com/samzong/SaveEye/releases/download/v#{version}/SaveEye-#{version}-arm64.dmg"
+  end
+
+  name "SaveEye"
+  desc "Minimalist eye care reminder app"
+  homepage "https://github.com/samzong/SaveEye"
 
   livecheck do
     url :url
     strategy :github_latest
   end
 
+  auto_updates true
   depends_on macos: ">= :big_sur"
-
-  on_arm do
-    url "https://github.com/samzong/SaveEye/releases/download/v#{version}/SaveEye-#{version}-arm64.dmg"
-    sha256 "6e468b090d4b99e909aacab61fbeb0d6bc5963555ff66cea56719f2e19e51e01"
-  end
 
   app "SaveEye.app"
 
   postflight do
     system_command "xattr", args: ["-cr", "#{appdir}/SaveEye.app"]
   end
-  
+
   zap trash: [
     "/Library/Logs/DiagnosticReports/SaveEye*",
     "~/Library/Application Support/SaveEye",
