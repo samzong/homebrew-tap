@@ -1,13 +1,13 @@
 cask "mac-music-player" do
-  version "0.4.3"
+  version "0.4.4"
 
   on_arm do
-    sha256 "f8f010b731a01a2fa0546f698d6dde28b9d1e0c0c3644e5bce757b01c8522854"
+    sha256 "c2aca73ac187d568ab5616eedb581d5ea72508f5227370fb5a2d4dafb72a0735"
 
     url "https://github.com/samzong/MacMusicPlayer/releases/download/v#{version}/MacMusicPlayer-arm64.dmg"
   end
   on_intel do
-    sha256 "ce1569a70d2265c0a7d3f9056e5bd566e962d8c63996a82cde47b31c4a2b0d68"
+    sha256 "13872e1d71825c228113d15a30f85ff0b13c5e078a8a0dc4d3cce6c3b172abd5"
 
     url "https://github.com/samzong/MacMusicPlayer/releases/download/v#{version}/MacMusicPlayer-x86_64.dmg"
   end
