@@ -1,13 +1,13 @@
 cask "logo-wallpaper" do
-  version "0.1.2"
+  version "0.1.3"
 
   on_arm do
-    sha256 "a31cdf86864713f2a51f0cf00dee8dede3c9531307ff7054ea48c3560aeacc50"
+    sha256 "80e6a80bf9fd24c0190b606dcf1d00cce5f6c20eadefd38ada019111ddef9e8c"
 
     url "https://github.com/samzong/LogoWallpaper/releases/download/v#{version}/LogoWallpaper-arm64.dmg"
   end
   on_intel do
-    sha256 "c1645b257ecd386c7cac3db84650e4e8b1473acb83cb4a964bcb92ba68a3f003"
+    sha256 "8dd5b2b391a95c5a1c7b8d2b20b8af1d36e3f52a462a596179d84e7f1f31893f"
 
     url "https://github.com/samzong/LogoWallpaper/releases/download/v#{version}/LogoWallpaper-x86_64.dmg"
   end
