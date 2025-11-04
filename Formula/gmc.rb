@@ -6,20 +6,20 @@ class Gmc < Formula
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/gmc/releases/download/v#{version}/gmc_Darwin_arm64.tar.gz"
-      sha256 "227a171e0edb1eba846823f0c0aefc01d6a28464f0eb4dcf8067c672a03a1892"
+      sha256 "25038723b01eac8a83c7d69ba38c52a8dead50a69a3b59966a656ea5578e5458"
     else
       url "https://github.com/samzong/gmc/releases/download/v#{version}/gmc_Darwin_x86_64.tar.gz"
-      sha256 "334c45959920197f5bc516657117fa3ebd8822d1a675548e06ea318d39c0abfc"
+      sha256 "748820e4e0cbae03f2cd2d524edca09a9f97093400e99f81a97b7a317d5cb644"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/gmc/releases/download/v#{version}/gmc_Linux_arm64.tar.gz"
-      sha256 "3f5b2832e222b7579d3f92840a3837fdf7f767a53abbf8a36b8755ed516b4de5"
+      sha256 "0d00a016c02dc7949239f8c8f6a177ba03931918113ce641b17789e5079aeb28"
     else
       url "https://github.com/samzong/gmc/releases/download/v#{version}/gmc_Linux_x86_64.tar.gz"
-      sha256 "e2369d983c8068fea0076fafbb6594d83c383ad08762749801d08c65ed95a3f5"
+      sha256 "0d37822ae1bff5a83103540024fcc6ae0eedb9cec49261f6bcfdfbb29458388e"
     end
   end
 
