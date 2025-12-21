@@ -5,21 +5,21 @@
 class Mirrormate < Formula
   desc "One-shot mirror injection for Docker builds and compose workflows."
   homepage "https://github.com/samzong/mirrormate"
-  version "0.0.2"
+  version "0.0.3"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/samzong/mirrormate/releases/download/v0.0.2/mirrormate_Darwin_x86_64.tar.gz"
-      sha256 "6ffe0d875b37c957abc5b979345eb5005ebad1a6159b55762e1e0837b1a647b8"
+      url "https://github.com/samzong/mirrormate/releases/download/v0.0.3/mirrormate_Darwin_x86_64.tar.gz"
+      sha256 "cae8c768f53a018e91d99bc94f82700a00c2681ffe4e6c8b116352cfb8b948ad"
 
       def install
         bin.install "mirrormate"
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/samzong/mirrormate/releases/download/v0.0.2/mirrormate_Darwin_arm64.tar.gz"
-      sha256 "970e4b61ba47dfaad3c43fa5225467c673ba6f9455aaa591baf35fce32cbb5ba"
+      url "https://github.com/samzong/mirrormate/releases/download/v0.0.3/mirrormate_Darwin_arm64.tar.gz"
+      sha256 "346f620594d0334e75fe30daf3092b1dbb964d5c8d99fd0437f278a36f0648db"
 
       def install
         bin.install "mirrormate"
@@ -29,15 +29,15 @@ class Mirrormate < Formula
 
   on_linux do
     if Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-      url "https://github.com/samzong/mirrormate/releases/download/v0.0.2/mirrormate_Linux_x86_64.tar.gz"
-      sha256 "92c7cc7fb508d0d9abf2a5b28b20b10636356b547675cf271bfd5fcd202cdd74"
+      url "https://github.com/samzong/mirrormate/releases/download/v0.0.3/mirrormate_Linux_x86_64.tar.gz"
+      sha256 "6c9743fbd07b42b91d32244ff9169b09f1b959f2d23bbc94eeeb5787b9729abf"
       def install
         bin.install "mirrormate"
       end
     end
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/samzong/mirrormate/releases/download/v0.0.2/mirrormate_Linux_arm64.tar.gz"
-      sha256 "38c3e369a48725fe1a9726d9c1979e87b5b042d499175920cdd1d9488b59c594"
+      url "https://github.com/samzong/mirrormate/releases/download/v0.0.3/mirrormate_Linux_arm64.tar.gz"
+      sha256 "6697eb16c1c0ddc1b180a531e9415f6e45cb1b063c0ca4ec6a1a8ce5e68572c5"
       def install
         bin.install "mirrormate"
       end
