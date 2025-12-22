@@ -33,7 +33,7 @@ brew install mdctl
 | gmc | CLI Tool | CLI for that accelerates the efficiency of Git add and commit | v0.4.0 |
 | gofs | CLI Tool | Lightweight, fast HTTP file server written in Go | v0.2.4 |
 | mdctl | CLI Tool | CLI tool for managing markdown files | v0.1.1 |
-| mirrormate | CLI Tool | One-shot mirror injection for Docker builds and compose workflows. | v0.0.3 |
+| mirrormate | CLI Tool | One-shot mirror injection for Docker builds and compose workflows. | v0.0.4 |
 | mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.5 |
 
 ## Documentation
