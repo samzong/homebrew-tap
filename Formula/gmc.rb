@@ -25,6 +25,7 @@ class Gmc < Formula
 
   def install
     bin.install "gmc"
+    man1.install Dir["docs/man/*.1"]
   end
 
   test do
