@@ -1,25 +1,25 @@
 class Gmc < Formula
   desc "CLI for that accelerates the efficiency of Git add and commit"
   homepage "https://github.com/samzong/gmc"
-  version "0.4.3"
+  version "0.5.0"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/gmc/releases/download/v#{version}/gmc_Darwin_arm64.tar.gz"
-      sha256 "a896aba3917d3963f42741e5b18095685401bc80110499b469375c5b899ae6d3"
+      sha256 "e9570158b93da73c1d76215caff96d95c074096a85bc37b658e68e2d1038bf23"
     else
       url "https://github.com/samzong/gmc/releases/download/v#{version}/gmc_Darwin_x86_64.tar.gz"
-      sha256 "edc219ab69466c108a60a459c9d2867d93da7e3cb4b2a7519a307ec375cdb05f"
+      sha256 "bcb46edcefae40ed30a80732ae34487cd9c8cabd20de0ff00ac310b0d3d44446"
     end
   end
 
   on_linux do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/gmc/releases/download/v#{version}/gmc_Linux_arm64.tar.gz"
-      sha256 "407116dbfe77c6f7783d6316864d7ea779e57dfb7a0b5951f6e3f58a646fe2e4"
+      sha256 "f5d0b53ca1b1e7c6c1f551389ecff7a4bcbb6b683691bd148673681e49677b6f"
     else
       url "https://github.com/samzong/gmc/releases/download/v#{version}/gmc_Linux_x86_64.tar.gz"
-      sha256 "5b8f2d8d791d5888167c092a61896cf3b72c0cd3607f694c740cb74d6debf3d6"
+      sha256 "c12e87660a51bf830a1272f0a874749920be15ffadad44af186303be400d8758"
     end
   end
 
