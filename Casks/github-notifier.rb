@@ -1,13 +1,13 @@
 cask "github-notifier" do
-  version "0.4.3"
+  version "0.5.0"
 
   on_arm do
-    sha256 "09be9a79c33c14ca8c02ed5a081fed51c23490610486d4a8344557bd0fe8f369"
+    sha256 "61e60d61751675d47c289c78135286d897cbdbae42f7d1431e4a43849435b2d4"
 
     url "https://github.com/samzong/GitHubNotifier/releases/download/v#{version}/GitHubNotifier-arm64.dmg"
   end
   on_intel do
-    sha256 "9331629358b3981e7987e04edc81cdddd5702dec60a439c92cf84cf5910463c9"
+    sha256 "92c9687983210415ed43bea2e49fba6564caad93463ac581076fe95c82e0d250"
 
     url "https://github.com/samzong/GitHubNotifier/releases/download/v#{version}/GitHubNotifier-x86_64.dmg"
   end
