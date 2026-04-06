@@ -12,14 +12,15 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-      
+        with:
+          fetch-depth: 0
+
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v40
-        with:
-          files: |
-            Formula/**
-            Casks/**
+        run: |
+          base=$(git merge-base ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})
+          files=$(git diff --name-only --diff-filter=ACMR "$base" ${{ github.event.pull_request.head.sha }} -- 'Formula/**' 'Casks/**' | tr '\n' ' ')
+          echo "all_changed_files=$files" >> "$GITHUB_OUTPUT"
 
       - name: Verify SHA256
         if: steps.changed-files.outputs.all_changed_files != ''
@@ -53,13 +54,16 @@ jobs:
     needs: verify-sha256
     runs-on: macos-latest
     steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
       - name: Get changed files
         id: changed-files
-        uses: tj-actions/changed-files@v40
-        with:
-          files: |
-            Casks/**
-            Formula/**
+        run: |
+          base=$(git merge-base ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})
+          files=$(git diff --name-only --diff-filter=ACMR "$base" ${{ github.event.pull_request.head.sha }} -- 'Formula/**' 'Casks/**' | tr '\n' ' ')
+          echo "all_changed_files=$files" >> "$GITHUB_OUTPUT"
 
       - name: Setup Homebrew
         run: |
