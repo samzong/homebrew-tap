@@ -19,6 +19,15 @@ download() {
 
 die() { echo "::error::$1"; exit 1; }
 
+gh_api() {
+  local method="$1" endpoint="$2"
+  shift 2
+  curl -fsSL -X "$method" \
+    -H "Authorization: token ${TOKEN}" \
+    -H "Accept: application/vnd.github+json" \
+    "https://api.github.com${endpoint}" "$@"
+}
+
 # --- Resolve inputs ---
 
 TYPE="$INPUT_TYPE"
@@ -32,6 +41,7 @@ HOMEPAGE="${INPUT_HOMEPAGE:-https://github.com/${TAP_OWNER}/${APP_NAME}}"
 DESC="${INPUT_DESC:-${APP_NAME}}"
 BIN="${INPUT_BINARY_NAME:-${APP_LOWER}}"
 BUNDLE_ID="com.${TAP_OWNER}.${APP_LOWER}"
+SKIP_QUARANTINE="${INPUT_SKIP_QUARANTINE:-true}"
 WORKDIR=$(mktemp -d /tmp/brew-releaser-XXXXXX)
 
 [[ "$TYPE" == "cask" || "$TYPE" == "formula" ]] || die "type must be 'cask' or 'formula', got '$TYPE'"
@@ -74,54 +84,58 @@ else
 fi
 echo "::endgroup::"
 
-# --- Clone tap ---
+# --- Fetch existing file via API (no git clone) ---
 
-echo "::group::Clone tap"
-git clone --depth 1 "https://x-access-token:${TOKEN}@github.com/${TAP_REPO}.git" tap
-cd tap
-BRANCH="brew-releaser/${APP_LOWER}-${VERSION}"
-git checkout -b "$BRANCH"
+echo "::group::Fetch tap state"
+MAIN_SHA=$(gh_api GET "/repos/${TAP_REPO}/git/ref/heads/main" | jq -r '.object.sha')
+echo "  main HEAD: $MAIN_SHA"
+
+EXISTING_CONTENT=""
+EXISTING_SHA=""
+FILE_RESPONSE=$(gh_api GET "/repos/${TAP_REPO}/contents/${FILE_PATH}?ref=main" 2>/dev/null || echo '{"message":"Not Found"}')
+if echo "$FILE_RESPONSE" | jq -e '.sha' &>/dev/null; then
+  EXISTING_SHA=$(echo "$FILE_RESPONSE" | jq -r '.sha')
+  EXISTING_CONTENT=$(echo "$FILE_RESPONSE" | jq -r '.content' | base64 -d)
+  echo "  Found existing $FILE_PATH ($EXISTING_SHA)"
+else
+  echo "  $FILE_PATH not found — will create"
+fi
 echo "::endgroup::"
 
-# --- Create or update file ---
+# --- Generate file content ---
 
-if [ -f "$FILE_PATH" ]; then
-  echo "::group::Update existing $TYPE"
+echo "::group::Generate $TYPE content"
 
-  sed -i "s/version \"[^\"]*\"/version \"${VERSION}\"/" "$FILE_PATH"
+if [ -n "$EXISTING_CONTENT" ]; then
+  NEW_CONTENT="$EXISTING_CONTENT"
+
+  NEW_CONTENT=$(echo "$NEW_CONTENT" | sed 's/^  version "[^"]*"/  version "'"${VERSION}"'"/')
 
   if [ "$TYPE" = "cask" ]; then
-    if grep -q "on_arm" "$FILE_PATH"; then
-      sed -i "/on_arm/,/end/{s/sha256 \"[^\"]*\"/sha256 \"${SHAS[arm64]}\"/;}" "$FILE_PATH"
+    if echo "$NEW_CONTENT" | grep -q "on_arm"; then
+      NEW_CONTENT=$(echo "$NEW_CONTENT" | sed '/on_arm/,/end/{s/sha256 "[^"]*"/sha256 "'"${SHAS[arm64]}"'"/;}')
       if [ -n "${SHAS[x86_64]:-}" ]; then
-        sed -i "/on_intel/,/end/{s/sha256 \"[^\"]*\"/sha256 \"${SHAS[x86_64]}\"/;}" "$FILE_PATH"
+        NEW_CONTENT=$(echo "$NEW_CONTENT" | sed '/on_intel/,/end/{s/sha256 "[^"]*"/sha256 "'"${SHAS[x86_64]}"'"/;}')
       fi
     else
-      sed -i "s/sha256 \"[^\"]*\"/sha256 \"${SHAS[arm64]}\"/" "$FILE_PATH"
+      NEW_CONTENT=$(echo "$NEW_CONTENT" | sed 's/^  sha256 "[^"]*"/  sha256 "'"${SHAS[arm64]}"'"/')
     fi
   else
-    update_formula_sha() {
-      local platform="$1" arch="$2"
-      local safe="${platform}_${arch}"
-      local sha="${SHAS[$safe]:-}"
-      [ -z "$sha" ] && return
-      local os_block
-      [ "$platform" = "darwin" ] && os_block="on_macos" || os_block="on_linux"
-      local cpu_check
-      [ "$arch" = "arm64" ] && cpu_check="arm?" || cpu_check="intel?"
+    for platform in darwin linux; do
+      for arch in arm64 x86_64; do
+        safe="${platform}_${arch}"
+        sha="${SHAS[$safe]:-}"
+        [ -z "$sha" ] && continue
+        url=$(echo "$INPUT_FORMULA_URLS" | jq -r --arg k "${platform}-${arch}" '.[$k] // empty')
+        [ -z "$url" ] && continue
 
-      local url
-      url=$(echo "$INPUT_FORMULA_URLS" | jq -r --arg k "${platform}-${arch}" '.[$k] // empty')
-      [ -z "$url" ] && return
+        [ "$platform" = "darwin" ] && os_block="on_macos" || os_block="on_linux"
+        [ "$arch" = "arm64" ] && cpu_check="arm?" || cpu_check="intel?"
 
-      python3 - "$FILE_PATH" "$os_block" "$cpu_check" "$sha" "$url" <<'PYEOF'
-import sys, re
-path, os_block, cpu_check, sha, url = sys.argv[1:6]
-with open(path) as f:
-    content = f.read()
-pattern = rf'({os_block}\s+do.*?{re.escape(cpu_check)}.*?url\s+")[^"]*(".*?sha256\s+")[^"]*(")'
-def replacer(m):
-    return m.group(0)
+        NEW_CONTENT=$(python3 - "$os_block" "$cpu_check" "$sha" "$url" <<'PYEOF' <<< "$NEW_CONTENT"
+import sys
+os_block, cpu_check, sha, url = sys.argv[1:5]
+content = sys.stdin.read()
 lines = content.split('\n')
 in_os = False
 in_cpu = False
@@ -132,154 +146,189 @@ for line in lines:
     if in_os and cpu_check in line:
         in_cpu = True
     if in_cpu and 'url "' in line:
+        import re
         line = re.sub(r'url "[^"]*"', f'url "{url}"', line)
     if in_cpu and 'sha256 "' in line:
+        import re
         line = re.sub(r'sha256 "[^"]*"', f'sha256 "{sha}"', line)
         in_cpu = False
     if in_os and line.strip() == 'end' and not in_cpu:
         in_os = False
     result.append(line)
-with open(path, 'w') as f:
-    f.write('\n'.join(result))
+print('\n'.join(result))
 PYEOF
-    }
-
-    for platform in darwin linux; do
-      for arch in arm64 x86_64; do
-        update_formula_sha "$platform" "$arch"
+        )
       done
     done
   fi
 
-  echo "::endgroup::"
   COMMIT_VERB="update"
 else
-  echo "::group::Create new $TYPE"
-  mkdir -p "$(dirname "$FILE_PATH")"
   CASK_TOKEN=$(basename "$FILE_PATH" .rb)
 
   if [ "$TYPE" = "cask" ]; then
-    {
-      echo "cask \"${CASK_TOKEN}\" do"
-      echo "  version \"${VERSION}\""
+    NEW_CONTENT=$(cat <<EOF
+cask "${CASK_TOKEN}" do
+  version "${VERSION}"
+EOF
+    )
 
-      if [ -n "${SHAS[x86_64]:-}" ]; then
-        echo ""
-        echo "  on_arm do"
-        echo "    sha256 \"${SHAS[arm64]}\""
-        echo ""
-        echo "    url \"${INPUT_DMG_URL}\""
-        echo "  end"
-        echo "  on_intel do"
-        echo "    sha256 \"${SHAS[x86_64]}\""
-        echo ""
-        echo "    url \"${INPUT_DMG_X86_URL}\""
-        echo "  end"
-      else
-        echo "  sha256 \"${SHAS[arm64]}\""
-        echo ""
-        echo "  url \"${INPUT_DMG_URL}\""
-      fi
+    if [ -n "${SHAS[x86_64]:-}" ]; then
+      NEW_CONTENT+=$(cat <<EOF
 
-      echo ""
-      echo "  name \"${APP_NAME}\""
-      echo "  desc \"${DESC}\""
-      echo "  homepage \"${HOMEPAGE}\""
-      echo ""
-      echo "  livecheck do"
-      echo "    url :url"
-      echo "    strategy :github_latest"
-      echo "  end"
-      echo ""
-      echo "  depends_on macos: \">= ${INPUT_MIN_MACOS}\""
-      echo ""
-      echo "  app \"${APP_NAME}.app\""
-      echo ""
-      echo "  postflight do"
-      echo "    system_command \"xattr\", args: [\"-cr\", \"#{appdir}/${APP_NAME}.app\"]"
-      echo "  end"
-      echo ""
-      echo "  zap trash: ["
-      echo "    \"~/.config/${APP_LOWER}\","
-      echo "    \"~/Library/Preferences/${BUNDLE_ID}.plist\","
-      echo "    \"~/Library/Saved Application State/${BUNDLE_ID}.savedState\","
-      echo "  ]"
-      echo "end"
-    } > "$FILE_PATH"
+  on_arm do
+    sha256 "${SHAS[arm64]}"
+
+    url "${INPUT_DMG_URL}"
+  end
+  on_intel do
+    sha256 "${SHAS[x86_64]}"
+
+    url "${INPUT_DMG_X86_URL}"
+  end
+EOF
+      )
+    else
+      NEW_CONTENT+=$(cat <<EOF
+
+  sha256 "${SHAS[arm64]}"
+
+  url "${INPUT_DMG_URL}"
+EOF
+      )
+    fi
+
+    NEW_CONTENT+=$(cat <<EOF
+
+  name "${APP_NAME}"
+  desc "${DESC}"
+  homepage "${HOMEPAGE}"
+
+  livecheck do
+    url :url
+    strategy :github_latest
+  end
+
+  depends_on macos: ">= ${INPUT_MIN_MACOS}"
+
+  app "${APP_NAME}.app"
+EOF
+    )
+
+    if [ "$SKIP_QUARANTINE" = "true" ]; then
+      NEW_CONTENT+=$(cat <<EOF
+
+  postflight do
+    system_command "xattr", args: ["-cr", "#{appdir}/${APP_NAME}.app"]
+  end
+EOF
+      )
+    fi
+
+    NEW_CONTENT+=$(cat <<EOF
+
+  zap trash: [
+    "~/.config/${APP_LOWER}",
+    "~/Library/Preferences/${BUNDLE_ID}.plist",
+    "~/Library/Saved Application State/${BUNDLE_ID}.savedState",
+  ]
+end
+EOF
+    )
   else
     CLASS_NAME=$(echo "$CASK_TOKEN" | perl -pe 's/(^|[-_])(\w)/uc($2)/ge')
-    {
-      echo "class ${CLASS_NAME} < Formula"
-      echo "  desc \"${DESC}\""
-      echo "  homepage \"${HOMEPAGE}\""
-      echo "  version \"${VERSION}\""
-      [ -n "$INPUT_LICENSE" ] && echo "  license \"${INPUT_LICENSE}\""
-      echo ""
+    NEW_CONTENT="class ${CLASS_NAME} < Formula
+  desc \"${DESC}\"
+  homepage \"${HOMEPAGE}\"
+  version \"${VERSION}\""
 
-      for os in macos linux; do
-        platform_key=$( [ "$os" = "macos" ] && echo "darwin" || echo "linux" )
-        arm_url=$(echo "$INPUT_FORMULA_URLS" | jq -r --arg k "${platform_key}-arm64" '.[$k] // empty')
-        x86_url=$(echo "$INPUT_FORMULA_URLS" | jq -r --arg k "${platform_key}-x86_64" '.[$k] // empty')
-        [ -z "$arm_url" ] && [ -z "$x86_url" ] && continue
+    [ -n "$INPUT_LICENSE" ] && NEW_CONTENT+=$'\n'"  license \"${INPUT_LICENSE}\""
+    NEW_CONTENT+=$'\n'
 
-        echo "  on_${os} do"
-        if [ -n "$arm_url" ]; then
-          echo "    if Hardware::CPU.arm?"
-          echo "      url \"${arm_url}\""
-          echo "      sha256 \"${SHAS[${platform_key}_arm64]}\""
-        fi
-        if [ -n "$x86_url" ]; then
-          [ -n "$arm_url" ] && echo "    else" || echo "    if Hardware::CPU.intel?"
-          echo "      url \"${x86_url}\""
-          echo "      sha256 \"${SHAS[${platform_key}_x86_64]}\""
-        fi
-        echo "    end"
-        echo "  end"
-        echo ""
-      done
+    for os in macos linux; do
+      platform_key=$( [ "$os" = "macos" ] && echo "darwin" || echo "linux" )
+      arm_url=$(echo "$INPUT_FORMULA_URLS" | jq -r --arg k "${platform_key}-arm64" '.[$k] // empty')
+      x86_url=$(echo "$INPUT_FORMULA_URLS" | jq -r --arg k "${platform_key}-x86_64" '.[$k] // empty')
+      [ -z "$arm_url" ] && [ -z "$x86_url" ] && continue
 
-      echo "  def install"
-      echo "    bin.install \"${BIN}\""
-      echo "  end"
-      echo ""
-      echo "  test do"
-      echo "    system \"#{bin}/${BIN}\", \"--version\""
-      echo "  end"
-      echo "end"
-    } > "$FILE_PATH"
+      NEW_CONTENT+=$'\n'"  on_${os} do"
+      if [ -n "$arm_url" ]; then
+        NEW_CONTENT+=$'\n'"    if Hardware::CPU.arm?"
+        NEW_CONTENT+=$'\n'"      url \"${arm_url}\""
+        NEW_CONTENT+=$'\n'"      sha256 \"${SHAS[${platform_key}_arm64]}\""
+      fi
+      if [ -n "$x86_url" ]; then
+        [ -n "$arm_url" ] && NEW_CONTENT+=$'\n'"    else" || NEW_CONTENT+=$'\n'"    if Hardware::CPU.intel?"
+        NEW_CONTENT+=$'\n'"      url \"${x86_url}\""
+        NEW_CONTENT+=$'\n'"      sha256 \"${SHAS[${platform_key}_x86_64]}\""
+      fi
+      NEW_CONTENT+=$'\n'"    end"
+      NEW_CONTENT+=$'\n'"  end"
+      NEW_CONTENT+=$'\n'
+    done
+
+    NEW_CONTENT+=$'\n'"  def install"
+    NEW_CONTENT+=$'\n'"    bin.install \"${BIN}\""
+    NEW_CONTENT+=$'\n'"  end"
+    NEW_CONTENT+=$'\n'
+    NEW_CONTENT+=$'\n'"  test do"
+    NEW_CONTENT+=$'\n'"    system \"#{bin}/${BIN}\", \"--version\""
+    NEW_CONTENT+=$'\n'"  end"
+    NEW_CONTENT+=$'\n'"end"
   fi
 
-  echo "::endgroup::"
   COMMIT_VERB="add"
 fi
 
-echo "::group::Result"
-cat "$FILE_PATH"
+echo "$NEW_CONTENT"
 echo "::endgroup::"
 
-# --- Commit and push ---
+# --- Push via GitHub API (no git clone) ---
 
-git config user.name "github-actions[bot]"
-git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
-git add "$FILE_PATH"
-git commit -m "chore(${TYPE}): ${COMMIT_VERB} ${APP_NAME} v${VERSION}"
-git push -u origin "$BRANCH"
+echo "::group::Push to tap"
+BRANCH="brew-releaser/${APP_LOWER}-${VERSION}"
+ENCODED_CONTENT=$(echo "$NEW_CONTENT" | base64 | tr -d '\n')
+COMMIT_MSG="chore(${TYPE}): ${COMMIT_VERB} ${APP_NAME} v${VERSION}"
+
+gh_api POST "/repos/${TAP_REPO}/git/refs" \
+  -d "$(jq -n --arg ref "refs/heads/${BRANCH}" --arg sha "$MAIN_SHA" \
+    '{ref: $ref, sha: $sha}')" > /dev/null
+
+if [ -n "$EXISTING_SHA" ]; then
+  gh_api PUT "/repos/${TAP_REPO}/contents/${FILE_PATH}" \
+    -d "$(jq -n \
+      --arg message "$COMMIT_MSG" \
+      --arg content "$ENCODED_CONTENT" \
+      --arg sha "$EXISTING_SHA" \
+      --arg branch "$BRANCH" \
+      '{message: $message, content: $content, sha: $sha, branch: $branch}')" > /dev/null
+else
+  gh_api PUT "/repos/${TAP_REPO}/contents/${FILE_PATH}" \
+    -d "$(jq -n \
+      --arg message "$COMMIT_MSG" \
+      --arg content "$ENCODED_CONTENT" \
+      --arg branch "$BRANCH" \
+      '{message: $message, content: $content, branch: $branch}')" > /dev/null
+fi
+echo "  Pushed $FILE_PATH to $BRANCH"
+echo "::endgroup::"
 
 # --- Create PR ---
 
-BODY="Automated by [brew-releaser](https://github.com/${TAP_REPO}/tree/main/actions/brew-releaser).\n\n"
-BODY+="| Field | Value |\n|---|---|\n"
-BODY+="| **Type** | \`${TYPE}\` |\n"
-BODY+="| **Version** | \`${VERSION}\` |\n"
+echo "::group::Create PR"
+BODY="Automated by [brew-releaser](https://github.com/${TAP_REPO}/tree/main/actions/brew-releaser).
+
+| Field | Value |
+|---|---|
+| **Type** | \`${TYPE}\` |
+| **Version** | \`${VERSION}\` |"
+
 for key in "${!SHAS[@]}"; do
   label=$(echo "$key" | tr '_' '-')
-  BODY+="| **SHA256 (${label})** | \`${SHAS[$key]}\` |\n"
+  BODY+=$'\n'"| **SHA256 (${label})** | \`${SHAS[$key]}\` |"
 done
 
-RESPONSE=$(curl -fsSL -X POST \
-  -H "Authorization: token ${TOKEN}" \
-  -H "Accept: application/vnd.github+json" \
-  "https://api.github.com/repos/${TAP_REPO}/pulls" \
+RESPONSE=$(gh_api POST "/repos/${TAP_REPO}/pulls" \
   -d "$(jq -n \
     --arg title "chore(${TYPE}): ${APP_NAME} v${VERSION}" \
     --arg body "$BODY" \
@@ -290,3 +339,4 @@ RESPONSE=$(curl -fsSL -X POST \
 PR_URL=$(echo "$RESPONSE" | jq -r '.html_url // empty')
 echo "pr_url=$PR_URL" >> "$GITHUB_OUTPUT"
 echo "Pull request: $PR_URL"
+echo "::endgroup::"

@@ -62,6 +62,10 @@ inputs:
     description: "[Formula] SPDX license identifier (e.g. MIT, Apache-2.0)"
     required: false
     default: ""
+  skip_quarantine:
+    description: "[Cask] Add postflight xattr -cr to remove quarantine (default: true)"
+    required: false
+    default: "true"
 
 outputs:
   pr_url:
@@ -92,9 +96,10 @@ runs:
         INPUT_FORMULA_URLS: ${{ inputs.formula_urls }}
         INPUT_BINARY_NAME: ${{ inputs.binary_name }}
         INPUT_LICENSE: ${{ inputs.license }}
+        INPUT_SKIP_QUARANTINE: ${{ inputs.skip_quarantine }}
       run: bash "${{ github.action_path }}/entrypoint.sh"
 
     - name: Cleanup
       if: always()
       shell: bash
-      run: rm -rf tap /tmp/brew-releaser-*
+      run: rm -rf /tmp/brew-releaser-*
