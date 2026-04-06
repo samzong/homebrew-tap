@@ -37,20 +37,27 @@ brew install mdctl
 | mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.5 |
 | ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
 
+## brew-releaser
+
+This tap ships a reusable GitHub Action for automating Homebrew Cask and Formula updates.
+
+```yaml
+- uses: samzong/homebrew-tap/actions/brew-releaser@main
+  with:
+    type: cask          # or formula
+    version: "1.0.0"
+    app_name: MyApp
+    dmg_url: "https://github.com/…/MyApp-arm64.dmg"
+    token: ${{ secrets.GH_PAT }}
+```
+
+See [actions/brew-releaser/README.md](actions/brew-releaser/README.md) for full documentation.
+
 ## Documentation
 
 - `brew help`
 - `man brew`
 - [Homebrew's documentation](https://docs.brew.sh)
-
-### Cask App Unsigned
-
-```ruby
-  # other install step
-  postflight do
-    system_command "xattr", args: ["-cr", "#{appdir}/Prompts.app"]
-  end
-```
 
 ## License
 
