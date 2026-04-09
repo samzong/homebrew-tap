@@ -28,6 +28,7 @@ brew install mdctl
 | mdctl | CLI Tool | CLI tool for managing markdown files | v0.1.1 |
 | mirrormate | CLI Tool | One-shot mirror injection for Docker builds and compose workflows. | v0.0.7 |
 | mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.5 |
+| recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.1.2 |
 | ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
 | GitHub Notifier | GUI App | A macOS menu bar app for GitHub notifications | v0.5.4 |
 | HF Model Downloader | GUI App | GUI tool for downloading Hugging Face models | v0.6.1 |
