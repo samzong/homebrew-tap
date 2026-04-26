@@ -1,0 +1,105 @@
+name: brew-releaser
+description: >
+  Create or update Homebrew Cask and Formula files in a tap repository.
+  Downloads release artifacts, computes SHA256, and opens a PR automatically.
+
+branding:
+  icon: package
+  color: orange
+
+inputs:
+  type:
+    description: "Package type: cask (macOS .app) or formula (CLI binary)"
+    required: true
+  version:
+    description: "Semantic version without v prefix (e.g. 1.2.0)"
+    required: true
+  app_name:
+    description: "Application/binary name (e.g. Mote, gmc)"
+    required: true
+  token:
+    description: "GitHub token with contents:write and pull_requests:write on the tap repo"
+    required: true
+  tap_repo:
+    description: "Tap repository in owner/name format"
+    required: false
+    default: "samzong/homebrew-tap"
+  file_path:
+    description: "Path to Cask/Formula file in tap (auto-derived from type + app_name if omitted)"
+    required: false
+    default: ""
+  desc:
+    description: "Short description (falls back to app_name if empty)"
+    required: false
+    default: ""
+  homepage:
+    description: "Homepage URL (default: https://github.com/{tap_owner}/{app_name})"
+    required: false
+    default: ""
+  dmg_url:
+    description: "[Cask] Download URL for arm64 DMG"
+    required: false
+    default: ""
+  dmg_x86_url:
+    description: "[Cask] Download URL for x86_64 DMG (omit for arm64-only)"
+    required: false
+    default: ""
+  min_macos:
+    description: "[Cask] Minimum macOS version symbol (e.g. :sequoia, :sonoma)"
+    required: false
+    default: ":sonoma"
+  formula_urls:
+    description: >
+      [Formula] JSON object mapping platform-arch to download URLs.
+      Keys: darwin-arm64, darwin-x86_64, linux-arm64, linux-x86_64
+    required: false
+    default: ""
+  binary_name:
+    description: "[Formula] Binary name to install (defaults to app_name lowercase)"
+    required: false
+    default: ""
+  license:
+    description: "[Formula] SPDX license identifier (e.g. MIT, Apache-2.0)"
+    required: false
+    default: ""
+  skip_quarantine:
+    description: "[Cask] Add postflight xattr -cr to remove quarantine (default: true)"
+    required: false
+    default: "true"
+
+outputs:
+  pr_url:
+    description: "URL of the created pull request"
+    value: ${{ steps.run.outputs.pr_url }}
+  file_path:
+    description: "Path to the created/updated file in the tap"
+    value: ${{ steps.run.outputs.file_path }}
+
+runs:
+  using: composite
+  steps:
+    - name: Run brew-releaser
+      id: run
+      shell: bash
+      env:
+        INPUT_TYPE: ${{ inputs.type }}
+        INPUT_VERSION: ${{ inputs.version }}
+        INPUT_APP_NAME: ${{ inputs.app_name }}
+        INPUT_TOKEN: ${{ inputs.token }}
+        INPUT_TAP_REPO: ${{ inputs.tap_repo }}
+        INPUT_FILE_PATH: ${{ inputs.file_path }}
+        INPUT_DESC: ${{ inputs.desc }}
+        INPUT_HOMEPAGE: ${{ inputs.homepage }}
+        INPUT_DMG_URL: ${{ inputs.dmg_url }}
+        INPUT_DMG_X86_URL: ${{ inputs.dmg_x86_url }}
+        INPUT_MIN_MACOS: ${{ inputs.min_macos }}
+        INPUT_FORMULA_URLS: ${{ inputs.formula_urls }}
+        INPUT_BINARY_NAME: ${{ inputs.binary_name }}
+        INPUT_LICENSE: ${{ inputs.license }}
+        INPUT_SKIP_QUARANTINE: ${{ inputs.skip_quarantine }}
+      run: bash "${{ github.action_path }}/entrypoint.sh"
+
+    - name: Cleanup
+      if: always()
+      shell: bash
+      run: rm -rf /tmp/brew-releaser-*
