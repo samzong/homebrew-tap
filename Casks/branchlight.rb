@@ -1,20 +1,20 @@
-cask "github-notifier" do
-  version "0.5.4"
+cask "branchlight" do
+  version "0.5.5"
 
   on_arm do
-    sha256 "c2c15c782fa5bd079bbf103101d60688453fd1b601fbb0f92c75ecd7b07a9b80"
+    sha256 "ec082f11c59f6d216e1b9e1561ae9394280af70a1e87434295f83d01ef21164b"
 
-    url "https://github.com/samzong/GitHubNotifier/releases/download/v#{version}/GitHubNotifier-arm64.dmg"
+    url "https://github.com/samzong/branchlight/releases/download/v#{version}/Branchlight-arm64.dmg"
   end
   on_intel do
-    sha256 "229329851a86794c0b94cd61d2a11d87c4c308d4da02c8e6dcb5daf6976a0993"
+    sha256 "4326b17c4fe38fdfe9898922e371b66aafa1ae5dc96af68dd25b31c98792e154"
 
-    url "https://github.com/samzong/GitHubNotifier/releases/download/v#{version}/GitHubNotifier-x86_64.dmg"
+    url "https://github.com/samzong/branchlight/releases/download/v#{version}/Branchlight-x86_64.dmg"
   end
 
-  name "GitHub Notifier"
-  desc "A macOS menu bar app for GitHub notifications"
-  homepage "https://github.com/samzong/GitHubNotifier"
+  name "Branchlight"
+  desc "Quiet menubar hub for GitHub work"
+  homepage "https://github.com/samzong/branchlight"
 
   livecheck do
     url :url
@@ -22,12 +22,12 @@ cask "github-notifier" do
   end
 
   auto_updates true
-  depends_on macos: ">= :monterey"
+  depends_on macos: :sequoia
 
-  app "GitHubNotifier.app"
+  app "Branchlight.app"
 
   postflight do
-    system_command "xattr", args: ["-cr", "#{appdir}/GitHubNotifier.app"]
+    system_command "xattr", args: ["-cr", "#{appdir}/Branchlight.app"]
   end
 
   zap trash: [
