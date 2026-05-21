@@ -33,7 +33,7 @@ brew install mdctl
 | mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.5 |
 | recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.1.5 |
 | ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
-| GitHub Notifier | GUI App | A macOS menu bar app for GitHub notifications | v0.5.4 |
+| Branchlight | GUI App | Quiet menubar hub for GitHub work | v0.5.5 |
 | HF Model Downloader | GUI App | GUI tool for downloading Hugging Face models | v0.6.1 |
 | LogoWallpaper | GUI App | A wallpaper application for macOS | v0.2.0 |
 | MacMusicPlayer | GUI App | Simple and elegant music player | v0.5.0 |
