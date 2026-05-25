@@ -40,6 +40,14 @@ jobs:
               pull_number: prNumber
             });
             
+            const headRef = pr.data.head.ref;
+            const headRepo = pr.data.head.repo.full_name;
+            const baseRepo = `${context.repo.owner}/${context.repo.repo}`;
+            if (headRepo !== baseRepo || !/^update\/[A-Za-z0-9._-]+-[0-9]+/.test(headRef)) {
+              console.log(`Skipping PR #${prNumber}; only trusted update/* package branches are auto-merged. head=${headRepo}:${headRef}`);
+              return;
+            }
+
             // Check if PR is mergeable
             // mergeable can be null if GitHub hasn't computed mergeability yet
             const checkMergeabilityWithBackoff = async (retries, delay, maxDelay) => {

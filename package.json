@@ -6,7 +6,10 @@
   "scripts": {
     "update-readme": "node update-readme.js",
     "update": "node update-readme.js",
-    "test": "node update-readme.js --dry-run"
+    "test": "node update-readme.js --dry-run && ruby scripts/validate-manifest.rb",
+    "validate-manifest": "ruby scripts/validate-manifest.rb",
+    "scan-outdated": "ruby scripts/scan-outdated.rb",
+    "update-package": "ruby scripts/update-package.rb"
   },
   "keywords": ["homebrew", "automation", "readme"],
   "author": "samzong",

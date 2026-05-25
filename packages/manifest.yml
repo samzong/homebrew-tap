@@ -1,0 +1,215 @@
+# Manifest-driven update rules for existing Homebrew Formula/Cask files.
+# The first .rb file for a package is still authored manually. This manifest only
+# tells the updater how to refresh version and SHA256 values for later releases.
+packages:
+  branchlight:
+    type: cask
+    source_repo: samzong/branchlight
+    path: Casks/branchlight.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      arm64:
+        filename: Branchlight-arm64.dmg
+        block: on_arm
+      x86_64:
+        filename: Branchlight-x86_64.dmg
+        block: on_intel
+
+  configforge:
+    type: cask
+    source_repo: samzong/ConfigForge
+    path: Casks/configforge.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      arm64:
+        filename: ConfigForge-arm64.dmg
+        block: on_arm
+      x86_64:
+        filename: ConfigForge-x86_64.dmg
+        block: on_intel
+
+  hf-model-downloader:
+    type: cask
+    source_repo: samzong/hf-model-downloader
+    path: Casks/hf-model-downloader.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      arm64:
+        filename: hf-model-downloader-arm64.dmg
+        block: on_arm
+      x86_64:
+        filename: hf-model-downloader-x86_64.dmg
+        block: on_intel
+
+  logo-wallpaper:
+    type: cask
+    source_repo: samzong/LogoWallpaper
+    path: Casks/logo-wallpaper.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      arm64:
+        filename: LogoWallpaper-arm64.dmg
+        block: on_arm
+      x86_64:
+        filename: LogoWallpaper-x86_64.dmg
+        block: on_intel
+
+  mac-music-player:
+    type: cask
+    source_repo: samzong/MacMusicPlayer
+    path: Casks/mac-music-player.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      arm64:
+        filename: MacMusicPlayer-arm64.dmg
+        block: on_arm
+      x86_64:
+        filename: MacMusicPlayer-x86_64.dmg
+        block: on_intel
+
+  prompts:
+    type: cask
+    source_repo: samzong/prompts
+    path: Casks/prompts.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      arm64:
+        filename: Prompts_{version}_aarch64.dmg
+        block: on_arm
+      x86_64:
+        filename: Prompts_{version}_x64.dmg
+        block: on_intel
+
+  saveeye:
+    type: cask
+    source_repo: samzong/SaveEye
+    path: Casks/saveeye.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      arm64:
+        filename: SaveEye-{version}-arm64.dmg
+        block: on_arm
+
+  gmc:
+    type: formula
+    source_repo: samzong/gmc
+    path: Formula/gmc.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      darwin_arm64:
+        filename: gmc_Darwin_arm64.tar.gz
+        url_match: gmc_Darwin_arm64.tar.gz
+      darwin_x86_64:
+        filename: gmc_Darwin_x86_64.tar.gz
+        url_match: gmc_Darwin_x86_64.tar.gz
+      linux_arm64:
+        filename: gmc_Linux_arm64.tar.gz
+        url_match: gmc_Linux_arm64.tar.gz
+      linux_x86_64:
+        filename: gmc_Linux_x86_64.tar.gz
+        url_match: gmc_Linux_x86_64.tar.gz
+
+  gofs:
+    type: formula
+    source_repo: samzong/gofs
+    path: Formula/gofs.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      darwin_x86_64:
+        filename: gofs_Darwin_x86_64.tar.gz
+        url_match: gofs_Darwin_x86_64.tar.gz
+      darwin_arm64:
+        filename: gofs_Darwin_arm64.tar.gz
+        url_match: gofs_Darwin_arm64.tar.gz
+      linux_x86_64:
+        filename: gofs_Linux_x86_64.tar.gz
+        url_match: gofs_Linux_x86_64.tar.gz
+      linux_arm64:
+        filename: gofs_Linux_arm64.tar.gz
+        url_match: gofs_Linux_arm64.tar.gz
+
+  mdctl:
+    type: formula
+    source_repo: samzong/mdctl
+    path: Formula/mdctl.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      darwin_arm64:
+        filename: mdctl_Darwin_arm64.tar.gz
+        url_match: mdctl_Darwin_arm64.tar.gz
+      darwin_x86_64:
+        filename: mdctl_Darwin_x86_64.tar.gz
+        url_match: mdctl_Darwin_x86_64.tar.gz
+      linux_arm64:
+        filename: mdctl_Linux_arm64.tar.gz
+        url_match: mdctl_Linux_arm64.tar.gz
+      linux_x86_64:
+        filename: mdctl_Linux_x86_64.tar.gz
+        url_match: mdctl_Linux_x86_64.tar.gz
+
+  mirrormate:
+    type: formula
+    source_repo: samzong/mirrormate
+    path: Formula/mirrormate.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      darwin_x86_64:
+        filename: mirrormate_Darwin_x86_64.tar.gz
+        url_match: mirrormate_Darwin_x86_64.tar.gz
+      darwin_arm64:
+        filename: mirrormate_Darwin_arm64.tar.gz
+        url_match: mirrormate_Darwin_arm64.tar.gz
+      linux_x86_64:
+        filename: mirrormate_Linux_x86_64.tar.gz
+        url_match: mirrormate_Linux_x86_64.tar.gz
+      linux_arm64:
+        filename: mirrormate_Linux_arm64.tar.gz
+        url_match: mirrormate_Linux_arm64.tar.gz
+
+  mm:
+    type: formula
+    source_repo: samzong/mm
+    path: Formula/mm.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      darwin_arm64:
+        filename: mm_Darwin_arm64.tar.gz
+        url_match: mm_Darwin_arm64.tar.gz
+      darwin_x86_64:
+        filename: mm_Darwin_x86_64.tar.gz
+        url_match: mm_Darwin_x86_64.tar.gz
+      linux_arm64:
+        filename: mm_Linux_arm64.tar.gz
+        url_match: mm_Linux_arm64.tar.gz
+      linux_x86_64:
+        filename: mm_Linux_x86_64.tar.gz
+        url_match: mm_Linux_x86_64.tar.gz
+
+  recall:
+    type: formula
+    source_repo: samzong/Recall
+    path: Formula/recall.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      macos_arm64:
+        filename: recall-macos-aarch64.tar.gz
+        url_match: recall-macos-aarch64.tar.gz
+      macos_x86_64:
+        filename: recall-macos-x86_64.tar.gz
+        url_match: recall-macos-x86_64.tar.gz
+      linux_x86_64:
+        filename: recall-linux-x86_64.tar.gz
+        url_match: recall-linux-x86_64.tar.gz

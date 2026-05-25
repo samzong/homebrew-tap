@@ -1,0 +1,65 @@
+name: Update Package
+
+on:
+  workflow_dispatch:
+    inputs:
+      package:
+        description: Package name from packages/manifest.yml
+        required: true
+        type: string
+      version:
+        description: Release version, with or without v prefix. Defaults to latest published release.
+        required: false
+        default: latest
+        type: string
+  repository_dispatch:
+    types: [homebrew-package-release]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update:
+    runs-on: ubuntu-latest
+    concurrency:
+      group: update-package-${{ inputs.package || github.event.client_payload.package }}-${{ inputs.version || github.event.client_payload.version || 'latest' }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Resolve input
+        id: input
+        run: |
+          if [ "${{ github.event_name }}" = "workflow_dispatch" ]; then
+            echo "package=${{ inputs.package }}" >> "$GITHUB_OUTPUT"
+            echo "version=${{ inputs.version || 'latest' }}" >> "$GITHUB_OUTPUT"
+          else
+            echo "package=${{ github.event.client_payload.package }}" >> "$GITHUB_OUTPUT"
+            echo "version=${{ github.event.client_payload.version || 'latest' }}" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Validate manifest
+        run: ruby scripts/validate-manifest.rb
+
+      - name: Update package file
+        id: update
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
+        run: |
+          ruby scripts/update-package.rb \
+            --package "${{ steps.input.outputs.package }}" \
+            --version "${{ steps.input.outputs.version }}" \
+            --summary-file .update-package-summary.md
+
+      - name: Create or update pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GH_PAT || github.token }}
+          branch: ${{ steps.update.outputs.branch }}
+          delete-branch: true
+          commit-message: ${{ steps.update.outputs.title }}
+          title: ${{ steps.update.outputs.title }}
+          body-path: .update-package-summary.md

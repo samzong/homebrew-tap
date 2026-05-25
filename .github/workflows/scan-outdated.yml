@@ -1,0 +1,72 @@
+name: Scan Outdated Packages
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    outputs:
+      updates: ${{ steps.scan.outputs.updates }}
+      count: ${{ steps.scan.outputs.count }}
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate manifest
+        run: ruby scripts/validate-manifest.rb
+
+      - name: Scan packages
+        id: scan
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
+        run: ruby scripts/scan-outdated.rb --report-file outdated-packages.md
+
+      - name: Upload scan report
+        uses: actions/upload-artifact@v4
+        with:
+          name: outdated-packages
+          path: outdated-packages.md
+
+  update:
+    needs: scan
+    if: needs.scan.outputs.count != '0'
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include: ${{ fromJson(needs.scan.outputs.updates) }}
+    concurrency:
+      group: scheduled-update-${{ matrix.package }}-${{ matrix.version }}
+      cancel-in-progress: false
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Update package file
+        id: update
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
+        run: |
+          ruby scripts/update-package.rb \
+            --package "${{ matrix.package }}" \
+            --version "${{ matrix.version }}" \
+            --summary-file .update-package-summary.md
+
+      - name: Create or update pull request
+        uses: peter-evans/create-pull-request@v7
+        with:
+          token: ${{ secrets.GH_PAT || github.token }}
+          branch: ${{ steps.update.outputs.branch }}
+          delete-branch: true
+          commit-message: ${{ steps.update.outputs.title }}
+          title: ${{ steps.update.outputs.title }}
+          body-path: .update-package-summary.md
