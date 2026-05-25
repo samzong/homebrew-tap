@@ -8,13 +8,65 @@ on:
       - 'Formula/**'
       - 'packages/manifest.yml'
       - 'scripts/**'
+  workflow_dispatch:
+    inputs:
+      pull_request_number:
+        description: Pull request number to review
+        required: true
+        type: string
 
 permissions:
   contents: read
+  issues: read
   pull-requests: read
 
 jobs:
+  resolve-pr:
+    runs-on: ubuntu-latest
+    outputs:
+      pull_request_number: ${{ steps.pr.outputs.pull_request_number }}
+      base_sha: ${{ steps.pr.outputs.base_sha }}
+      head_sha: ${{ steps.pr.outputs.head_sha }}
+      base_repo: ${{ steps.pr.outputs.base_repo }}
+      head_repo: ${{ steps.pr.outputs.head_repo }}
+      head_ref: ${{ steps.pr.outputs.head_ref }}
+      author: ${{ steps.pr.outputs.author }}
+      has_auto_merge_label: ${{ steps.pr.outputs.has_auto_merge_label }}
+    steps:
+      - name: Resolve pull request
+        id: pr
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const prNumber = context.payload.pull_request?.number || Number(context.payload.inputs?.pull_request_number);
+            if (!Number.isInteger(prNumber) || prNumber <= 0) {
+              core.setFailed(`Invalid pull request number: ${context.payload.inputs?.pull_request_number}`);
+              return;
+            }
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const { data: pr } = await github.rest.pulls.get({
+              owner,
+              repo,
+              pull_number: prNumber
+            });
+            const labels = await github.paginate(github.rest.issues.listLabelsOnIssue, {
+              owner,
+              repo,
+              issue_number: prNumber,
+              per_page: 100
+            });
+            core.setOutput('pull_request_number', String(pr.number));
+            core.setOutput('base_sha', pr.base.sha);
+            core.setOutput('head_sha', pr.head.sha);
+            core.setOutput('base_repo', pr.base.repo.full_name);
+            core.setOutput('head_repo', pr.head.repo.full_name);
+            core.setOutput('head_ref', pr.head.ref);
+            core.setOutput('author', pr.user.login);
+            core.setOutput('has_auto_merge_label', String(labels.some(label => label.name === 'auto-merge/package-update')));
+
   validate-package-pr:
+    needs: resolve-pr
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -26,13 +78,37 @@ jobs:
 
       - name: Verify changed package files and checksums
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
-          BASE_SHA: ${{ github.event.pull_request.base.sha }}
-          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          GH_TOKEN: ${{ github.token }}
+          BASE_SHA: ${{ needs.resolve-pr.outputs.base_sha }}
+          HEAD_SHA: ${{ needs.resolve-pr.outputs.head_sha }}
         run: ruby scripts/review-package-pr.rb --base "$BASE_SHA" --head "$HEAD_SHA"
 
+  auto-merge-eligibility:
+    name: Auto-merge eligibility
+    needs: resolve-pr
+    if: ${{ needs.resolve-pr.outputs.has_auto_merge_label == 'true' }}
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate automatic package update
+        env:
+          BASE_SHA: ${{ needs.resolve-pr.outputs.base_sha }}
+          HEAD_SHA: ${{ needs.resolve-pr.outputs.head_sha }}
+          BASE_REPO: ${{ needs.resolve-pr.outputs.base_repo }}
+          HEAD_REPO: ${{ needs.resolve-pr.outputs.head_repo }}
+          AUTHOR: ${{ needs.resolve-pr.outputs.author }}
+          EXPECTED_REPO: ${{ github.repository }}
+        run: |
+          test "$BASE_REPO" = "$EXPECTED_REPO"
+          test "$HEAD_REPO" = "$EXPECTED_REPO"
+          test "$AUTHOR" = "github-actions[bot]"
+          ruby scripts/check-auto-merge-eligibility.rb --base "$BASE_SHA" --head "$HEAD_SHA"
+
   brew-smoke-test:
-    needs: validate-package-pr
+    needs: [resolve-pr, validate-package-pr]
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
@@ -42,17 +118,17 @@ jobs:
       - name: Get changed package files
         id: changed
         run: |
-          base=$(git merge-base "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")
-          files=$(git diff --name-only --diff-filter=ACMR "$base" "${{ github.event.pull_request.head.sha }}" -- 'Formula/**' 'Casks/**' | tr '\n' ' ')
+          base=$(git merge-base "${{ needs.resolve-pr.outputs.base_sha }}" "${{ needs.resolve-pr.outputs.head_sha }}")
+          files=$(git diff --name-only --diff-filter=ACMR "$base" "${{ needs.resolve-pr.outputs.head_sha }}" -- 'Formula/**' 'Casks/**' | tr '\n' ' ')
           echo "files=$files" >> "$GITHUB_OUTPUT"
 
       - name: Setup tap checkout
         if: steps.changed.outputs.files != ''
         run: |
           brew update
-          brew tap samzong/tap "https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git"
+          brew tap samzong/tap "https://github.com/${{ needs.resolve-pr.outputs.head_repo }}.git"
           cd "$(brew --repository samzong/tap)"
-          git checkout "${{ github.event.pull_request.head.sha }}"
+          git checkout "${{ needs.resolve-pr.outputs.head_sha }}"
 
       - name: Smoke test package installation
         if: steps.changed.outputs.files != ''
