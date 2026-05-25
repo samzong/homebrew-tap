@@ -6,7 +6,9 @@ on:
   workflow_dispatch:
 
 permissions:
+  actions: write
   contents: write
+  issues: write
   pull-requests: write
 
 jobs:
@@ -26,7 +28,7 @@ jobs:
       - name: Scan packages
         id: scan
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: ruby scripts/scan-outdated.rb --report-file outdated-packages.md
 
       - name: Upload scan report
@@ -54,20 +56,67 @@ jobs:
       - name: Update package file
         id: update
         env:
-          GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
+          GH_TOKEN: ${{ github.token }}
         run: |
           ruby scripts/update-package.rb \
             --package "${{ matrix.package }}" \
             --version "${{ matrix.version }}" \
             --summary-file .update-package-summary.md
 
+      - name: Ensure auto-merge label
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const label = 'auto-merge/package-update';
+            try {
+              await github.rest.issues.getLabel({ owner, repo, name: label });
+            } catch (error) {
+              if (error.status !== 404) {
+                throw error;
+              }
+              try {
+                await github.rest.issues.createLabel({
+                  owner,
+                  repo,
+                  name: label,
+                  color: '0E8A16',
+                  description: 'Eligible for automatic package-update squash merge'
+                });
+              } catch (createError) {
+                if (createError.status !== 422) {
+                  throw createError;
+                }
+              }
+            }
+
       - name: Create or update pull request
+        id: cpr
         uses: peter-evans/create-pull-request@v7
         with:
-          token: ${{ secrets.GH_PAT || github.token }}
+          token: ${{ github.token }}
           branch: ${{ steps.update.outputs.branch }}
           delete-branch: true
           commit-message: ${{ steps.update.outputs.title }}
           title: ${{ steps.update.outputs.title }}
           body-path: .update-package-summary.md
+          labels: auto-merge/package-update
           add-paths: ${{ steps.update.outputs.file_path }}
+
+      - name: Queue PR review
+        if: ${{ steps.cpr.outputs.pull-request-operation == 'created' || steps.cpr.outputs.pull-request-operation == 'updated' }}
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            await github.rest.actions.createWorkflowDispatch({
+              owner,
+              repo,
+              workflow_id: 'pr-review.yml',
+              ref: '${{ steps.cpr.outputs.pull-request-branch }}',
+              inputs: {
+                pull_request_number: '${{ steps.cpr.outputs.pull-request-number }}'
+              }
+            });
