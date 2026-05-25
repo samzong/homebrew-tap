@@ -70,3 +70,4 @@ jobs:
           commit-message: ${{ steps.update.outputs.title }}
           title: ${{ steps.update.outputs.title }}
           body-path: .update-package-summary.md
+          add-paths: ${{ steps.update.outputs.file_path }}

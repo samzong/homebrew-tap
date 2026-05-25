@@ -125,6 +125,7 @@ begin
       file.puts "version=#{version}"
       file.puts "branch=#{branch}"
       file.puts "title=#{title}"
+      file.puts "file_path=#{package.fetch("path")}"
       file.puts "summary_file=#{options[:summary_file]}"
     end
   end

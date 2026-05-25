@@ -3,5 +3,5 @@
 *.bottle.json
 /vendor/
 /coverage/
-node_modules/
-package-lock.json
+.update-package-summary.md
+outdated-packages.md
