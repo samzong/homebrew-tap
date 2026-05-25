@@ -27,7 +27,7 @@ brew install mdctl
 | Branchlight | GUI App | Quiet menubar hub for GitHub work | v0.5.5 |
 | ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
 | gmc | CLI Tool | CLI for that accelerates the efficiency of Git add and commit | v0.8.1 |
-| gofs | CLI Tool | Lightweight, fast HTTP file server written in Go | v0.2.4 |
+| gofs | CLI Tool | Lightweight, fast HTTP file server written in Go | v0.3.0 |
 | HF Model Downloader | GUI App | GUI tool for downloading Hugging Face models | v0.6.1 |
 | LogoWallpaper | GUI App | A wallpaper application for macOS | v0.2.0 |
 | MacMusicPlayer | GUI App | Simple and elegant music player | v0.5.0 |
