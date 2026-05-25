@@ -35,7 +35,7 @@ brew install mdctl
 | mirrormate | CLI Tool | One-shot mirror injection for Docker builds and compose workflows. | v0.0.7 |
 | mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.5 |
 | Prompts | GUI App | System-level prompt management tool | v0.1.9 |
-| recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.2.1 |
+| recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.2.2 |
 | SaveEye | GUI App | Minimalist eye care reminder app | v1.0.12 |
 
 ## Documentation
