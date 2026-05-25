@@ -33,7 +33,7 @@ brew install mdctl
 | MacMusicPlayer | GUI App | Simple and elegant music player | v0.5.0 |
 | mdctl | CLI Tool | CLI tool for managing markdown files | v0.1.2 |
 | mirrormate | CLI Tool | One-shot mirror injection for Docker builds and compose workflows. | v0.0.7 |
-| mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.5 |
+| mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.6 |
 | Prompts | GUI App | System-level prompt management tool | v0.1.9 |
 | recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.2.2 |
 | SaveEye | GUI App | Minimalist eye care reminder app | v1.0.12 |
