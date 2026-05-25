@@ -2,113 +2,70 @@ name: PR Review
 
 on:
   pull_request:
-    types: [opened, synchronize]
+    types: [opened, synchronize, reopened]
     paths:
       - 'Casks/**'
       - 'Formula/**'
+      - 'packages/manifest.yml'
+      - 'scripts/**'
+
+permissions:
+  contents: read
+  pull-requests: read
 
 jobs:
-  verify-sha256:
+  validate-package-pr:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Get changed files
-        id: changed-files
-        run: |
-          base=$(git merge-base ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})
-          files=$(git diff --name-only --diff-filter=ACMR "$base" ${{ github.event.pull_request.head.sha }} -- 'Formula/**' 'Casks/**' | tr '\n' ' ')
-          echo "all_changed_files=$files" >> "$GITHUB_OUTPUT"
+      - name: Validate manifest
+        run: ruby scripts/validate-manifest.rb
 
-      - name: Verify SHA256
-        if: steps.changed-files.outputs.all_changed_files != ''
-        run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
-            if [[ $file == Formula/* ]] || [[ $file == Casks/* ]]; then
-              echo "Verifying SHA256 for $file"
-              while IFS= read -r line; do
-                if [[ $line =~ url[[:space:]]*\"([^\"]*)\" ]]; then
-                  url="${BASH_REMATCH[1]}"
-                  if [[ $url != *"#{version}"* && $url != *"#{arch}"* ]]; then
-                    echo "Checking URL: $url"
-                    actual_sha256=$(curl -sL "$url" | shasum -a 256 | cut -d ' ' -f 1)
-                    next_line=$(sed -n "$((NR+1))p" <<< "$(cat "$file")")
-                    if [[ $next_line =~ sha256[[:space:]]*\"([^\"]*)\" ]]; then
-                      declared_sha256="${BASH_REMATCH[1]}"
-                      if [[ "$actual_sha256" != "$declared_sha256" ]]; then
-                        echo "::error::SHA256 mismatch in $file"
-                        echo "::error::Declared: $declared_sha256"
-                        echo "::error::Actual: $actual_sha256"
-                        exit 1
-                      fi
-                    fi
-                  fi
-                fi
-              done < "$file"
-            fi
-          done
+      - name: Verify changed package files and checksums
+        env:
+          GH_TOKEN: ${{ secrets.GH_PAT || github.token }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: ruby scripts/review-package-pr.rb --base "$BASE_SHA" --head "$HEAD_SHA"
 
-  test-install:
-    needs: verify-sha256
+  brew-smoke-test:
+    needs: validate-package-pr
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
-      - name: Get changed files
-        id: changed-files
+      - name: Get changed package files
+        id: changed
         run: |
-          base=$(git merge-base ${{ github.event.pull_request.base.sha }} ${{ github.event.pull_request.head.sha }})
-          files=$(git diff --name-only --diff-filter=ACMR "$base" ${{ github.event.pull_request.head.sha }} -- 'Formula/**' 'Casks/**' | tr '\n' ' ')
-          echo "all_changed_files=$files" >> "$GITHUB_OUTPUT"
+          base=$(git merge-base "${{ github.event.pull_request.base.sha }}" "${{ github.event.pull_request.head.sha }}")
+          files=$(git diff --name-only --diff-filter=ACMR "$base" "${{ github.event.pull_request.head.sha }}" -- 'Formula/**' 'Casks/**' | tr '\n' ' ')
+          echo "files=$files" >> "$GITHUB_OUTPUT"
 
-      - name: Setup Homebrew
+      - name: Setup tap checkout
+        if: steps.changed.outputs.files != ''
         run: |
           brew update
-          brew tap samzong/tap https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git
-          cd $(brew --repository samzong/tap)
-          git checkout ${{ github.event.pull_request.head.sha }}
+          brew tap samzong/tap "https://github.com/${{ github.event.pull_request.head.repo.full_name }}.git"
+          cd "$(brew --repository samzong/tap)"
+          git checkout "${{ github.event.pull_request.head.sha }}"
 
-      - name: Test installation
-        if: steps.changed-files.outputs.all_changed_files != ''
+      - name: Smoke test package installation
+        if: steps.changed.outputs.files != ''
         run: |
-          for file in ${{ steps.changed-files.outputs.all_changed_files }}; do
+          for file in ${{ steps.changed.outputs.files }}; do
             if [[ $file == Casks/* ]]; then
-              APP_NAME=$(basename "$file" .rb)
-              echo "Testing cask: $APP_NAME"
-              brew install --cask samzong/tap/$APP_NAME || {
-                echo "::error::Failed to install cask: $APP_NAME"
-                exit 1
-              }
+              token=$(basename "$file" .rb)
+              echo "Testing cask: $token"
+              brew install --cask --no-quarantine --force "samzong/tap/$token"
             elif [[ $file == Formula/* ]]; then
-              APP_NAME=$(basename "$file" .rb)
-              echo "Testing formula: $APP_NAME"
-              brew install samzong/tap/$APP_NAME || {
-                echo "::error::Failed to install formula: $APP_NAME"
-                exit 1
-              }
+              token=$(basename "$file" .rb)
+              echo "Testing formula: $token"
+              brew install "samzong/tap/$token"
+              brew test "samzong/tap/$token"
             fi
           done
-
-      - name: Add PR comment
-        if: always()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const outcome = '${{ job.status }}' === 'success' ? '✅' : '❌';
-            const body = `### Installation Test Result: ${outcome}
-
-            Test Environment: macOS Latest
-            Test Time: ${new Date().toISOString()}
-
-            ${outcome === '✅' ? 'All applications installed successfully!' : 'Installation test failed, please check the logs.'}`;
-            
-            github.rest.issues.createComment({
-              issue_number: context.issue.number,
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              body: body
-            });
