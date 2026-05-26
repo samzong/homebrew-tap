@@ -24,7 +24,7 @@ brew install mdctl
 
 | Application Name    | Type     | Description                                                                 | Latest Version |
 | ------------------- | -------- | --------------------------------------------------------------------------- | -------------- |
-| Mote | GUI App | Menu bar macOS app for rewriting selected text with OpenAI-compatible models | v0.1.0 |
+| Mote | GUI App | Menu bar app for rewriting selected text with OpenAI-compatible models | v0.1.0 |
 | mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.6 |
 | recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.2.2 |
 | mdctl | CLI Tool | CLI tool for managing markdown files | v0.1.2 |

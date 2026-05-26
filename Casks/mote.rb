@@ -8,7 +8,7 @@ cask "mote" do
   end
 
   name "Mote"
-  desc "Menu bar macOS app for rewriting selected text with OpenAI-compatible models"
+  desc "Menu bar app for rewriting selected text with OpenAI-compatible models"
   homepage "https://github.com/samzong/mote"
 
   livecheck do
