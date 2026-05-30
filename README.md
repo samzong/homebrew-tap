@@ -24,6 +24,7 @@ brew install mdctl
 
 | Application Name    | Type     | Description                                                                 | Latest Version |
 | ------------------- | -------- | --------------------------------------------------------------------------- | -------------- |
+| Mailbell | GUI App | Menu bar Gmail notifier | v0.0.1 |
 | Mote | GUI App | Menu bar app for rewriting selected text with OpenAI-compatible models | v0.1.0 |
 | mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.6 |
 | recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.2.2 |
