@@ -24,19 +24,19 @@ brew install mdctl
 
 | Application Name    | Type     | Description                                                                 | Latest Version |
 | ------------------- | -------- | --------------------------------------------------------------------------- | -------------- |
-| Mote | GUI App | Menu bar app for rewriting selected text with OpenAI-compatible models | v0.1.0 |
-| mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.6 |
-| recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.2.2 |
-| mdctl | CLI Tool | CLI tool for managing markdown files | v0.1.2 |
-| gofs | CLI Tool | Lightweight, fast HTTP file server written in Go | v0.3.0 |
 | Branchlight | GUI App | Quiet menubar hub for GitHub work | v0.5.5 |
-| gmc | CLI Tool | CLI for that accelerates the efficiency of Git add and commit | v0.8.1 |
-| mirrormate | CLI Tool | One-shot mirror injection for Docker builds and compose workflows. | v0.0.7 |
-| MacMusicPlayer | GUI App | Simple and elegant music player | v0.5.0 |
-| LogoWallpaper | GUI App | A wallpaper application for macOS | v0.2.0 |
 | ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
+| gmc | CLI Tool | CLI for that accelerates the efficiency of Git add and commit | v0.8.1 |
+| gofs | CLI Tool | Lightweight, fast HTTP file server written in Go | v0.3.0 |
 | HF Model Downloader | GUI App | GUI tool for downloading Hugging Face models | v0.6.1 |
+| LogoWallpaper | GUI App | A wallpaper application for macOS | v0.2.0 |
+| MacMusicPlayer | GUI App | Simple and elegant music player | v0.5.0 |
+| mdctl | CLI Tool | CLI tool for managing markdown files | v0.1.2 |
+| mirrormate | CLI Tool | One-shot mirror injection for Docker builds and compose workflows. | v0.0.7 |
+| mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.6 |
+| Mote | GUI App | Menu bar app for rewriting selected text with OpenAI-compatible models | v0.1.0 |
 | Prompts | GUI App | System-level prompt management tool | v0.1.9 |
+| recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.2.2 |
 | SaveEye | GUI App | Minimalist eye care reminder app | v1.0.12 |
 
 ## Documentation
