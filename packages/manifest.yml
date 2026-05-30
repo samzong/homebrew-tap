@@ -72,6 +72,17 @@ packages:
         filename: MacMusicPlayer-x86_64.dmg
         block: on_intel
 
+  mailbell:
+    type: cask
+    source_repo: samzong/mailbell
+    path: Casks/mailbell.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      arm64:
+        filename: Mailbell-arm64.dmg
+        block: on_arm
+
   mote:
     type: cask
     source_repo: samzong/mote
