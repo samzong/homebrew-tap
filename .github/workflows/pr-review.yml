@@ -137,7 +137,7 @@ jobs:
             if [[ $file == Casks/* ]]; then
               token=$(basename "$file" .rb)
               echo "Testing cask: $token"
-              brew install --cask --no-quarantine --force "samzong/tap/$token"
+              brew install --cask --force "samzong/tap/$token"
             elif [[ $file == Formula/* ]]; then
               token=$(basename "$file" .rb)
               echo "Testing formula: $token"
