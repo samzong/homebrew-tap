@@ -38,7 +38,7 @@ brew install mdctl
 | Mote | GUI App | Menu bar app for rewriting selected text with OpenAI-compatible models | v0.1.0 |
 | Prompts | GUI App | System-level prompt management tool | v0.1.9 |
 | recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.2.2 |
-| SaveEye | GUI App | Minimalist eye care reminder app | v1.0.12 |
+| SaveEye | GUI App | Minimalist eye care reminder app | v1.1.0 |
 
 ## Documentation
 
