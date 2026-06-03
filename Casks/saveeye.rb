@@ -1,8 +1,8 @@
 cask "saveeye" do
-  version "1.0.12"
+  version "1.1.0"
 
   on_arm do
-    sha256 "6e468b090d4b99e909aacab61fbeb0d6bc5963555ff66cea56719f2e19e51e01"
+    sha256 "82029ab8388b04100dcfd3c20b27e6ad6c08aa8b20f0121e9ec2e99dac1f1f7a"
 
     url "https://github.com/samzong/SaveEye/releases/download/v#{version}/SaveEye-#{version}-arm64.dmg"
   end
