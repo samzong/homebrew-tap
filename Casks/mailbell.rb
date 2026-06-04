@@ -1,8 +1,8 @@
 cask "mailbell" do
-  version "0.0.1"
+  version "0.0.3"
 
   on_arm do
-    sha256 "e4fd5791636b113c22125b4ed331f5b6a83e720026d7a8cb288192897f81270e"
+    sha256 "4bd68985025369ad67f7be29cd51bb36ce2a984f0a51d61d8760263a71f3d054"
 
     url "https://github.com/samzong/mailbell/releases/download/v#{version}/Mailbell-arm64.dmg"
   end
