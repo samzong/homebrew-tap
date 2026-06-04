@@ -31,7 +31,7 @@ brew install mdctl
 | HF Model Downloader | GUI App | GUI tool for downloading Hugging Face models | v0.6.1 |
 | LogoWallpaper | GUI App | A wallpaper application for macOS | v0.2.0 |
 | MacMusicPlayer | GUI App | Simple and elegant music player | v0.5.0 |
-| Mailbell | GUI App | Menu bar Gmail notifier | v0.0.1 |
+| Mailbell | GUI App | Menu bar Gmail notifier | v0.0.3 |
 | mdctl | CLI Tool | CLI tool for managing markdown files | v0.1.2 |
 | mirrormate | CLI Tool | One-shot mirror injection for Docker builds and compose workflows. | v0.0.7 |
 | mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.6 |
