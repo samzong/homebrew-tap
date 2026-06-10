@@ -22,7 +22,7 @@ cask "configforge" do
   end
 
   auto_updates true
-  depends_on macos: ">= :big_sur"
+  depends_on macos: :big_sur
 
   app "ConfigForge.app"
   binary "#{appdir}/ConfigForge.app/Contents/Resources/bin/cf"
