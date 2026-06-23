@@ -2,6 +2,17 @@
 # The first .rb file for a package is still authored manually. This manifest only
 # tells the updater how to refresh version and SHA256 values for later releases.
 packages:
+  adit:
+    type: cask
+    source_repo: samzong/adit
+    path: Casks/adit.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      arm64:
+        filename: Adit-{version}-arm64.dmg
+        block: on_arm
+
   branchlight:
     type: cask
     source_repo: samzong/branchlight
