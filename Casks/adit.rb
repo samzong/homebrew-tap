@@ -1,8 +1,8 @@
 cask "adit" do
-  version "0.1.1"
+  version "0.1.2"
 
   on_arm do
-    sha256 "4b12eb5b2cfcafa31175ed4cdbbe49aaebfbef0e8764531ed54e3aad3af14e67"
+    sha256 "c6cb8b0b746c074bef32468262455218d2cdfde2ae7f7674a1f6c8e43a36c9d8"
 
     url "https://github.com/samzong/adit/releases/download/v#{version}/Adit-#{version}-arm64.dmg"
   end
