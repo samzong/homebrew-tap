@@ -35,6 +35,20 @@ module HomebrewTap
          .gsub("{filename}", filename.to_s)
   end
 
+  def expected_asset_filenames(package, version, tag: nil)
+    tag ||= tag_for(package, version)
+    package.fetch("assets").map do |_asset_key, asset_config|
+      expand_template(asset_config.fetch("filename"), version: version, tag: tag)
+    end
+  end
+
+  def missing_release_assets(release:, package:, version:)
+    assets_by_name = release.fetch("assets").to_h { |asset| [asset.fetch("name"), asset] }
+    expected_asset_filenames(package, version, tag: tag_for(package, version)).reject do |filename|
+      assets_by_name.key?(filename)
+    end
+  end
+
   def sha256_file(path)
     Digest::SHA256.file(path).hexdigest
   end

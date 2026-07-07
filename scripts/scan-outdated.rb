@@ -46,7 +46,21 @@ begin
     end
 
     latest_version = HomebrewTap.normalize_version(latest.fetch("tag_name"))
-    status = latest_version == current ? "current" : "outdated"
+    status =
+      if latest_version == current
+        "current"
+      else
+        missing_assets = HomebrewTap.missing_release_assets(
+          release: latest,
+          package: package,
+          version: latest_version
+        )
+        if missing_assets.empty?
+          "outdated"
+        else
+          "outdated (pending assets: #{missing_assets.join(", ")})"
+        end
+      end
     rows << [name, current, latest.fetch("tag_name"), status, auto ? "yes" : "no"]
 
     next unless status == "outdated"

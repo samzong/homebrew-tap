@@ -51,9 +51,6 @@ packages:
       arm64:
         filename: hf-model-downloader-arm64.dmg
         block: on_arm
-      x86_64:
-        filename: hf-model-downloader-x86_64.dmg
-        block: on_intel
 
   logo-wallpaper:
     type: cask
