@@ -56,9 +56,13 @@ module HomebrewTap
   def current_version(path)
     content = File.read(path)
     matches = content.scan(/^\s*version\s+"([^"]+)"/)
-    raise Error, "expected exactly one version line in #{path}, found #{matches.length}" unless matches.length == 1
+    return normalize_version(matches[0][0]) if matches.length == 1
+    raise Error, "expected at most one version line in #{path}, found #{matches.length}" if matches.length > 1
 
-    normalize_version(matches[0][0])
+    release_versions = content.scan(%r{/releases/download/v?([^/"]+)/}).flatten.uniq
+    raise Error, "could not infer one release version in #{path}" unless release_versions.length == 1
+
+    normalize_version(release_versions.first)
   end
 
   class Manifest
@@ -225,6 +229,7 @@ module HomebrewTap
 
     def replace_version!(version)
       matches = @lines.each_index.select { |index| @lines[index] =~ /^\s*version\s+"[^"]+"/ }
+      return if matches.empty?
       raise Error, "expected exactly one version line in #{@path}, found #{matches.length}" unless matches.length == 1
 
       index = matches.first

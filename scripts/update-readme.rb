@@ -97,7 +97,7 @@ class ReadmeUpdater
       file_name: file_name,
       name: class_name ? class_name.downcase : file_name,
       desc: match(content, /desc\s+["']([^"']+)["']/) || "No description available",
-      version: match(content, /version\s+["']([^"']+)["']/) || "Unknown",
+      version: HomebrewTap.current_version(path),
       type: "CLI Tool",
       last_modified: git_modified_time(path)
     }

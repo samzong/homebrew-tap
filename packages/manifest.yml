@@ -127,6 +127,18 @@ packages:
         filename: SaveEye-{version}-arm64.dmg
         block: on_arm
 
+  blueprint:
+    type: formula
+    source_repo: samzong/blueprint
+    path: Formula/blueprint.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      universal:
+        filename: samzong-blueprint-{version}.tgz
+        url_match: samzong-blueprint-
+        update_url: true
+
   gmc:
     type: formula
     source_repo: samzong/gmc
