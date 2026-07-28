@@ -41,24 +41,20 @@
           <p>This is a custom Homebrew tap for my personal applications and tools.</p>
         </div>
         <h2 id="usage"><a aria-hidden="true" tabindex="-1" href="#usage" class="anchor"><span class="icon icon-link"></span></a>Usage</h2>
-        <pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line line-number" line="1"><span class="token comment"># Add the tap</span>
-</span><span class="code-line line-number" line="2">brew tap samzong/tap
+        <pre class="language-bash"><code class="language-bash code-highlight"><span class="code-line line-number" line="1">brew tap samzong/tap
+</span><span class="code-line line-number" line="2">brew trust samzong/tap
 </span><span class="code-line line-number" line="3">
-</span><span class="code-line line-number" line="4"><span class="token comment"># To install an application:</span>
-</span><span class="code-line line-number" line="5">brew <span class="token function">install</span> APP_NAME
-</span><span class="code-line line-number" line="6">
-</span><span class="code-line line-number" line="7"><span class="token comment"># Example:</span>
-</span><span class="code-line line-number" line="8">brew <span class="token function">install</span> hf-model-downloader
-</span><span class="code-line line-number" line="9">brew <span class="token function">install</span> mdctl
-</span></code><input type="hidden" value="# Add the tap
-brew tap samzong/tap
+</span><span class="code-line line-number" line="4">brew <span class="token function">install</span> APP_NAME
+</span><span class="code-line line-number" line="5">
+</span><span class="code-line line-number" line="6"><span class="token comment"># Example:</span>
+</span><span class="code-line line-number" line="7">brew <span class="token function">install</span> blueprint
+</span></code><input type="hidden" value="brew tap samzong/tap
+brew trust samzong/tap
 
-# To install an application:
 brew install APP_NAME
 
 # Example:
-brew install hf-model-downloader
-brew install mdctl
+brew install blueprint
 "><div onclick="copied(this)" class="copied"><svg class="octicon-copy" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M0 6.75C0 5.784.784 5 1.75 5h1.5a.75.75 0 010 1.5h-1.5a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-1.5a.75.75 0 011.5 0v1.5A1.75 1.75 0 019.25 16h-7.5A1.75 1.75 0 010 14.25v-7.5z"></path><path fill-rule="evenodd" d="M5 1.75C5 .784 5.784 0 6.75 0h7.5C15.216 0 16 .784 16 1.75v7.5A1.75 1.75 0 0114.25 11h-7.5A1.75 1.75 0 015 9.25v-7.5zm1.75-.25a.25.25 0 00-.25.25v7.5c0 .138.112.25.25.25h7.5a.25.25 0 00.25-.25v-7.5a.25.25 0 00-.25-.25h-7.5z"></path></svg><svg class="octicon-check" aria-hidden="true" viewBox="0 0 16 16" fill="currentColor" height="12" width="12"><path fill-rule="evenodd" d="M13.78 4.22a.75.75 0 010 1.06l-7.25 7.25a.75.75 0 01-1.06 0L2.22 9.28a.75.75 0 011.06-1.06L6 10.94l6.72-6.72a.75.75 0 011.06 0z"></path></svg></div></pre>
         <h2 id="available-applications"><a aria-hidden="true" tabindex="-1" href="#available-applications" class="anchor"><span class="icon icon-link"></span></a>Available Applications</h2>
         <table>
@@ -72,22 +68,28 @@ brew install mdctl
           </thead>
           <tbody>
             <tr>
+              <td>blueprint</td>
+              <td>CLI Tool</td>
+              <td>Agent-native web scaffolding</td>
+              <td>v0.1.0</td>
+            </tr>
+            <tr>
+              <td>recall</td>
+              <td>CLI Tool</td>
+              <td>Local-first TUI for searching AI coding session history</td>
+              <td>v0.3.0</td>
+            </tr>
+            <tr>
+              <td>HF Model Downloader</td>
+              <td>GUI App</td>
+              <td>GUI tool for downloading Hugging Face models</td>
+              <td>v0.6.2</td>
+            </tr>
+            <tr>
               <td>Adit</td>
               <td>GUI App</td>
               <td>Local macOS shell for resumable LLM web conversation entrances</td>
               <td>v0.2.0</td>
-            </tr>
-            <tr>
-              <td>Branchlight</td>
-              <td>GUI App</td>
-              <td>Quiet menubar hub for GitHub work</td>
-              <td>v0.5.5</td>
-            </tr>
-            <tr>
-              <td>ConfigForge</td>
-              <td>GUI App</td>
-              <td>Open-source SSH configuration and Kubernetes configuration management tool</td>
-              <td>v0.2.1</td>
             </tr>
             <tr>
               <td>gmc</td>
@@ -96,16 +98,10 @@ brew install mdctl
               <td>v0.9.0</td>
             </tr>
             <tr>
-              <td>gofs</td>
-              <td>CLI Tool</td>
-              <td>Lightweight, fast HTTP file server written in Go</td>
-              <td>v0.3.0</td>
-            </tr>
-            <tr>
-              <td>HF Model Downloader</td>
+              <td>ConfigForge</td>
               <td>GUI App</td>
-              <td>GUI tool for downloading Hugging Face models</td>
-              <td>v0.6.2</td>
+              <td>Open-source SSH configuration and Kubernetes configuration management tool</td>
+              <td>v0.2.1</td>
             </tr>
             <tr>
               <td>LogoWallpaper</td>
@@ -120,28 +116,22 @@ brew install mdctl
               <td>v0.5.1</td>
             </tr>
             <tr>
+              <td>Prompts</td>
+              <td>GUI App</td>
+              <td>System-level prompt management tool</td>
+              <td>v0.1.9</td>
+            </tr>
+            <tr>
+              <td>SaveEye</td>
+              <td>GUI App</td>
+              <td>Minimalist eye care reminder app</td>
+              <td>v1.1.0</td>
+            </tr>
+            <tr>
               <td>Mailbell</td>
               <td>GUI App</td>
               <td>Menu bar Gmail notifier</td>
               <td>v0.0.4</td>
-            </tr>
-            <tr>
-              <td>mdctl</td>
-              <td>CLI Tool</td>
-              <td>CLI tool for managing markdown files</td>
-              <td>v0.1.2</td>
-            </tr>
-            <tr>
-              <td>mirrormate</td>
-              <td>CLI Tool</td>
-              <td>One-shot mirror injection for Docker builds and compose workflows.</td>
-              <td>v0.0.7</td>
-            </tr>
-            <tr>
-              <td>mm</td>
-              <td>CLI Tool</td>
-              <td>CLI for that help you fast to contribution to projects</td>
-              <td>v0.0.6</td>
             </tr>
             <tr>
               <td>Mote</td>
@@ -150,22 +140,34 @@ brew install mdctl
               <td>v0.1.0</td>
             </tr>
             <tr>
-              <td>Prompts</td>
-              <td>GUI App</td>
-              <td>System-level prompt management tool</td>
-              <td>v0.1.9</td>
-            </tr>
-            <tr>
-              <td>recall</td>
+              <td>mm</td>
               <td>CLI Tool</td>
-              <td>Local-first TUI for searching AI coding session history</td>
-              <td>v0.2.10</td>
+              <td>CLI for that help you fast to contribution to projects</td>
+              <td>v0.0.6</td>
             </tr>
             <tr>
-              <td>SaveEye</td>
+              <td>mdctl</td>
+              <td>CLI Tool</td>
+              <td>CLI tool for managing markdown files</td>
+              <td>v0.1.2</td>
+            </tr>
+            <tr>
+              <td>gofs</td>
+              <td>CLI Tool</td>
+              <td>Lightweight, fast HTTP file server written in Go</td>
+              <td>v0.3.0</td>
+            </tr>
+            <tr>
+              <td>Branchlight</td>
               <td>GUI App</td>
-              <td>Minimalist eye care reminder app</td>
-              <td>v1.1.0</td>
+              <td>Quiet menubar hub for GitHub work</td>
+              <td>v0.5.5</td>
+            </tr>
+            <tr>
+              <td>mirrormate</td>
+              <td>CLI Tool</td>
+              <td>One-shot mirror injection for Docker builds and compose workflows.</td>
+              <td>v0.0.7</td>
             </tr>
           </tbody>
         </table>
