@@ -23,7 +23,7 @@ brew install blueprint
 | Application Name    | Type     | Description                                                                 | Latest Version |
 | ------------------- | -------- | --------------------------------------------------------------------------- | -------------- |
 | Adit | GUI App | Local macOS shell for resumable LLM web conversation entrances | v0.2.0 |
-| blueprint | CLI Tool | Agent-native web scaffolding | v0.1.1 |
+| blueprint | CLI Tool | Agent-native web scaffolding | v0.1.2 |
 | Branchlight | GUI App | Quiet menubar hub for GitHub work | v0.5.5 |
 | ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
 | gmc | CLI Tool | CLI for that accelerates the efficiency of Git add and commit | v0.9.0 |
