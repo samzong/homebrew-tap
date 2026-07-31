@@ -1,8 +1,8 @@
 class Blueprint < Formula
   desc "Agent-native web scaffolding"
   homepage "https://github.com/samzong/blueprint"
-  url "https://github.com/samzong/blueprint/releases/download/v0.1.3/samzong-blueprint-0.1.3.tgz"
-  sha256 "82e1be2dd9668dc11492a0ffbcf71b1de55bf037162ef47b47690cccae7735fe"
+  url "https://github.com/samzong/blueprint/releases/download/v0.1.4/samzong-blueprint-0.1.4.tgz"
+  sha256 "73c3ddc06647b5a7b651cdfe71cb304ebd1202d3018afb3399d42b3b77904708"
   license "MIT"
 
   depends_on "cloudflare-wrangler"
