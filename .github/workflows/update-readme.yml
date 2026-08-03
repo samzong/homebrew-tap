@@ -1,25 +1,13 @@
 name: Update README
 
 on:
+  workflow_dispatch:
   push:
     branches:
       - main
-  pull_request:
-    types:
-      - closed
-    branches:
-      - main
-  workflow_run:
-    workflows: ["Auto Merge PR"]
-    types:
-      - completed
 
 jobs:
   update-readme:
-    if: >-
-      github.event_name == 'push' ||
-      (github.event_name == 'pull_request' && github.event.pull_request.merged == true) ||
-      (github.event_name == 'workflow_run' && github.event.workflow_run.conclusion == 'success')
     runs-on: ubuntu-latest
 
     permissions:

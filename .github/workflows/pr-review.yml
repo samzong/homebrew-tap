@@ -146,3 +146,129 @@ jobs:
               brew test "samzong/tap/$token"
             fi
           done
+
+  auto-merge:
+    name: Auto-merge package update
+    needs: [resolve-pr, validate-package-pr, auto-merge-eligibility, brew-smoke-test]
+    if: >
+      always() &&
+      needs.resolve-pr.result == 'success' &&
+      needs.resolve-pr.outputs.has_auto_merge_label == 'true' &&
+      needs.validate-package-pr.result == 'success' &&
+      needs.auto-merge-eligibility.result == 'success' &&
+      needs.brew-smoke-test.result == 'success'
+    runs-on: ubuntu-latest
+    concurrency:
+      group: auto-merge-package-pr-${{ needs.resolve-pr.outputs.pull_request_number }}
+      cancel-in-progress: false
+    permissions:
+      actions: write
+      contents: write
+      issues: write
+      pull-requests: write
+    steps:
+      - name: Squash-merge eligible package update
+        uses: actions/github-script@v9
+        with:
+          script: |
+            const owner = context.repo.owner;
+            const repo = context.repo.repo;
+            const autoMergeLabel = 'auto-merge/package-update';
+            const prNumber = Number('${{ needs.resolve-pr.outputs.pull_request_number }}');
+            const expectedSha = '${{ needs.resolve-pr.outputs.head_sha }}';
+            const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+            let pr = (await github.rest.pulls.get({ owner, repo, pull_number: prNumber })).data;
+
+            if (pr.state !== 'open') {
+              console.log(`PR #${prNumber} is ${pr.state}; skipping auto-merge.`);
+              return;
+            }
+
+            if (pr.head.sha !== expectedSha) {
+              core.setFailed(
+                `PR #${prNumber} head moved during review: expected ${expectedSha}, got ${pr.head.sha}`
+              );
+              return;
+            }
+
+            let delay = 5000;
+            for (let attempt = 0; attempt < 5 && pr.mergeable === null; attempt++) {
+              console.log(`PR #${prNumber} mergeability still computing; waiting ${delay}ms...`);
+              await sleep(delay);
+              delay = Math.min(delay * 2, 30000);
+              pr = (await github.rest.pulls.get({ owner, repo, pull_number: prNumber })).data;
+            }
+
+            if (!pr.mergeable) {
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: prNumber,
+                body: '⚠️ Automatic merge failed: This PR cannot be merged at the moment. Please resolve conflicts and re-run PR Review.'
+              });
+              core.setFailed(`PR #${prNumber} is not mergeable`);
+              return;
+            }
+
+            const labels = await github.paginate(github.rest.issues.listLabelsOnIssue, {
+              owner,
+              repo,
+              issue_number: prNumber,
+              per_page: 100
+            });
+            if (!labels.some(label => label.name === autoMergeLabel)) {
+              console.log(`PR #${prNumber} no longer has ${autoMergeLabel}; skipping auto-merge.`);
+              return;
+            }
+
+            let result;
+            try {
+              ({ data: result } = await github.rest.pulls.merge({
+                owner,
+                repo,
+                pull_number: prNumber,
+                sha: expectedSha,
+                merge_method: 'squash',
+                commit_title: pr.title
+              }));
+            } catch (error) {
+              const message = error.message || 'Automatic merge failed';
+              if (/already merged|not open|Pull Request is not mergeable/i.test(message) && (await github.rest.pulls.get({ owner, repo, pull_number: prNumber })).data.merged) {
+                console.log(`PR #${prNumber} already merged; treating as success.`);
+                return;
+              }
+              await github.rest.issues.createComment({
+                owner,
+                repo,
+                issue_number: prNumber,
+                body: `❌ Automatic merge failed: ${message}`
+              });
+              core.setFailed(message);
+              return;
+            }
+
+            if (!result.merged) {
+              core.setFailed(`PR #${prNumber} was not merged: ${result.message}`);
+              return;
+            }
+
+            console.log(`Successfully squash-merged PR #${prNumber}`);
+            try {
+              await github.rest.actions.createWorkflowDispatch({
+                owner,
+                repo,
+                workflow_id: 'update-readme.yml',
+                ref: pr.base.ref
+              });
+            } catch (error) {
+              core.setFailed(`PR #${prNumber} merged, but Update README dispatch failed: ${error.message}`);
+              return;
+            }
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: prNumber,
+              body: '🎉 Automatic merge successful: This PR has been automatically squash-merged into the target branch.'
+            });
