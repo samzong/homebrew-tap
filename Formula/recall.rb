@@ -20,9 +20,20 @@ class Recall < Formula
 
   def install
     bin.install "recall"
+    if version >= Version.new("0.5.1")
+      bin.install "rx"
+      %w[rxc rxx rxo rxp].each { |name| bin.install_symlink "rx" => name }
+    end
   end
 
   test do
     system "#{bin}/recall", "--version"
+    if version >= Version.new("0.5.1")
+      system "#{bin}/rx", "--version"
+      %w[rxc rxx rxo rxp].each do |name|
+        assert_predicate bin/name, :symlink?
+        assert_equal "rx", (bin/name).readlink.to_s
+      end
+    end
   end
 end
