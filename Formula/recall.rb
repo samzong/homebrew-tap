@@ -1,21 +1,21 @@
 class Recall < Formula
   desc "Local-first TUI for searching AI coding session history"
   homepage "https://github.com/samzong/Recall"
-  version "0.5.5"
+  version "0.5.6"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/Recall/releases/download/v#{version}/recall-macos-aarch64.tar.gz"
-      sha256 "3be26263db1a59c2167f4e40c30f39c7edae167836dae6c956513f7ddf4bec05"
+      sha256 "582ba46f6bc3cf07dc07ee033005a505efc628a6717dcb7913ba7e01c8e2fe97"
     else
       url "https://github.com/samzong/Recall/releases/download/v#{version}/recall-macos-x86_64.tar.gz"
-      sha256 "843f54fd26d8f44a8966c06e37ec77b0ab9843464edb7efa5e85170da973dd63"
+      sha256 "fa6122fad9c11b922e3a4cba8b86f250e64b7027029b9ba5315f11cc57c9ff5e"
     end
   end
 
   on_linux do
     url "https://github.com/samzong/Recall/releases/download/v#{version}/recall-linux-x86_64.tar.gz"
-    sha256 "7ea29e3d34b500742112b050d58d9e08127936130d8440e52b66e8ee47f832c8"
+    sha256 "9430e8847f37f332621c043f0524a4f920c1829d1364b39f8cf199d639803b36"
   end
 
   def install
