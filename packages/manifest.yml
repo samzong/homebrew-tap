@@ -139,6 +139,22 @@ packages:
         url_match: samzong-blueprint-
         update_url: true
 
+  confer:
+    type: formula
+    source_repo: samzong/confer
+    path: Formula/confer.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      darwin_arm64:
+        filename: confer-v{version}-darwin-arm64.tar.gz
+        url_match: darwin-arm64
+        update_url: true
+      linux_x86_64:
+        filename: confer-v{version}-linux-x86_64.tar.gz
+        url_match: linux-x86_64
+        update_url: true
+
   gmc:
     type: formula
     source_repo: samzong/gmc
