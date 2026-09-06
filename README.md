@@ -25,7 +25,7 @@ brew install blueprint
 | Adit | GUI App | Local macOS shell for resumable LLM web conversation entrances | v0.2.0 |
 | blueprint | CLI Tool | Agent-native web scaffolding | v0.1.6 |
 | Branchlight | GUI App | Quiet menubar hub for GitHub work | v0.5.5 |
-| confer | CLI Tool | Local multi-agent rooms over MCP | v0.1.0 |
+| confer | CLI Tool | Local multi-agent rooms over MCP | v0.2.0 |
 | ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
 | gmc | CLI Tool | CLI for that accelerates the efficiency of Git add and commit | v0.9.0 |
 | gofs | CLI Tool | Lightweight, fast HTTP file server written in Go | v0.4.0 |
