@@ -27,6 +27,17 @@ packages:
         filename: Branchlight-x86_64.dmg
         block: on_intel
 
+  combe:
+    type: cask
+    source_repo: samzong/combe
+    path: Casks/combe.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      arm64:
+        filename: Combe-v{version}-macos-arm64.zip
+        block: on_arm
+
   configforge:
     type: cask
     source_repo: samzong/ConfigForge
