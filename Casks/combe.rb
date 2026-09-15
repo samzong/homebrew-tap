@@ -17,11 +17,14 @@ cask "combe" do
   end
 
   depends_on macos: :ventura
+  depends_on formula: "samzong/tap/gmc"
+  depends_on cask: ["font-fira-code", "font-noto-sans-mono-cjk-sc"]
 
   app "Combe.app"
+  binary "#{appdir}/Combe.app/Contents/MacOS/Combe", target: "combe"
 
-  postflight do
-    system_command "xattr", args: ["-cr", "#{appdir}/Combe.app"]
+  postflight_steps do
+    run "/usr/bin/xattr", args: ["-cr", "{{appdir}}/Combe.app"]
   end
 
   zap trash: [
