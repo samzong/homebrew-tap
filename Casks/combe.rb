@@ -8,7 +8,7 @@ cask "combe" do
   end
 
   name "Combe"
-  desc "Worktree-aware terminal for Macs"
+  desc "A worktree-aware terminal for Apple Silicon. Curated catalog on the left, Ghostty surfaces on the right."
   homepage "https://github.com/samzong/combe"
 
   livecheck do
