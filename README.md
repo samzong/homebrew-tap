@@ -26,7 +26,7 @@ brew install blueprint
 | blueprint | CLI Tool | Agent-native web scaffolding | v0.1.6 |
 | Branchlight | GUI App | Quiet menubar hub for GitHub work | v0.5.5 |
 | Combe | GUI App | A worktree-aware terminal for Apple Silicon. Curated catalog on the left, Ghostty surfaces on the right. | v0.2.6 |
-| confer | CLI Tool | Local multi-agent rooms over MCP | v0.2.1 |
+| confer | CLI Tool | Local multi-agent rooms over MCP | v0.2.2 |
 | ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
 | gmc | CLI Tool | CLI for that accelerates the efficiency of Git add and commit | v0.10.1 |
 | gofs | CLI Tool | Lightweight, fast HTTP file server written in Go | v0.4.0 |
