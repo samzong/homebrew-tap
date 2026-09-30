@@ -6,11 +6,6 @@ cask "mac-music-player" do
 
     url "https://github.com/samzong/MacMusicPlayer/releases/download/v#{version}/MacMusicPlayer-arm64.dmg"
   end
-  on_intel do
-    sha256 "543fbadcf5f2867c1cf8c6d3a624729b1fea4edc75b337801dc935e51194bd76"
-
-    url "https://github.com/samzong/MacMusicPlayer/releases/download/v#{version}/MacMusicPlayer-x86_64.dmg"
-  end
 
   name "MacMusicPlayer"
   desc "Simple and elegant music player"
