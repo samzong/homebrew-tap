@@ -279,3 +279,20 @@ packages:
       linux_x86_64:
         filename: recall-linux-x86_64.tar.gz
         url_match: recall-linux-x86_64.tar.gz
+
+  rx:
+    type: formula
+    source_repo: samzong/rx
+    path: Formula/rx.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      macos_arm64:
+        filename: rx-macos-aarch64.tar.gz
+        url_match: rx-macos-aarch64.tar.gz
+      macos_x86_64:
+        filename: rx-macos-x86_64.tar.gz
+        url_match: rx-macos-x86_64.tar.gz
+      linux_x86_64:
+        filename: rx-linux-x86_64.tar.gz
+        url_match: rx-linux-x86_64.tar.gz

@@ -2,6 +2,7 @@ class Recall < Formula
   desc "Local-first TUI for searching AI coding session history"
   homepage "https://github.com/samzong/Recall"
   version "0.6.2"
+  revision 1
 
   on_macos do
     if Hardware::CPU.arm?
@@ -20,20 +21,13 @@ class Recall < Formula
 
   def install
     bin.install "recall"
-    if version >= Version.new("0.5.1")
-      bin.install "rx"
-      %w[rxc rxx rxo rxp].each { |name| bin.install_symlink "rx" => name }
-    end
+  end
+
+  def caveats
+    "rx is now installed separately: brew install samzong/tap/rx"
   end
 
   test do
     system "#{bin}/recall", "--version"
-    if version >= Version.new("0.5.1")
-      system "#{bin}/rx", "--version"
-      %w[rxc rxx rxo rxp].each do |name|
-        assert_predicate bin/name, :symlink?
-        assert_equal "rx", (bin/name).readlink.to_s
-      end
-    end
   end
 end
