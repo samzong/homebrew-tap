@@ -87,9 +87,6 @@ packages:
       arm64:
         filename: MacMusicPlayer-arm64.dmg
         block: on_arm
-      x86_64:
-        filename: MacMusicPlayer-x86_64.dmg
-        block: on_intel
 
   mailbell:
     type: cask
