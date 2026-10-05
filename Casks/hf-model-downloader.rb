@@ -1,8 +1,8 @@
 cask "hf-model-downloader" do
-  version "0.6.4"
+  version "0.6.5"
 
   on_arm do
-    sha256 "6a52274d5cf99df5d8dd9da9313f5165956ccf298dca1118857ab314b6d24df7"
+    sha256 "7d6a099eedf56d0f175bd0a90e41829416f034eb78639cc972ffa264dc3e825c"
 
     url "https://github.com/samzong/hf-model-downloader/releases/download/v#{version}/hf-model-downloader-arm64.dmg"
   end
