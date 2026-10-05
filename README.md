@@ -37,7 +37,7 @@ brew install samzong/tap/rx
 | ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
 | gmc | CLI Tool | CLI for that accelerates the efficiency of Git add and commit | v0.11.0 |
 | gofs | CLI Tool | Lightweight, fast HTTP file server written in Go | v0.4.0 |
-| HF Model Downloader | GUI App | GUI tool for downloading Hugging Face models | v0.6.4 |
+| HF Model Downloader | GUI App | GUI tool for downloading Hugging Face models | v0.6.5 |
 | LogoWallpaper | GUI App | A wallpaper application for macOS | v0.2.0 |
 | MacMusicPlayer | GUI App | Simple and elegant music player | v0.5.1 |
 | Mailbell | GUI App | Menu bar Gmail notifier | v0.0.4 |
