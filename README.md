@@ -39,7 +39,7 @@ brew install samzong/tap/rx
 | gofs | CLI Tool | Lightweight, fast HTTP file server written in Go | v0.4.0 |
 | HF Model Downloader | GUI App | GUI tool for downloading Hugging Face models | v0.6.5 |
 | LogoWallpaper | GUI App | A wallpaper application for macOS | v0.2.0 |
-| MacMusicPlayer | GUI App | Simple and elegant music player | v0.5.1 |
+| MacMusicPlayer | GUI App | Simple and elegant music player | v0.6.0 |
 | Mailbell | GUI App | Menu bar Gmail notifier | v0.0.4 |
 | mdctl | CLI Tool | CLI tool for managing markdown files | v0.1.2 |
 | mirrormate | CLI Tool | One-shot mirror injection for Docker builds and compose workflows. | v0.0.7 |
