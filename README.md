@@ -46,7 +46,7 @@ brew install samzong/tap/rx
 | mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.6 |
 | Mote | GUI App | Menu bar app for rewriting selected text with OpenAI-compatible models | v0.1.0 |
 | Prompts | GUI App | System-level prompt management tool | v0.1.9 |
-| recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.6.2 |
+| recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.6.3 |
 | rx | CLI Tool | Launch agent harnesses through a configured AI provider | v0.1.0 |
 | SaveEye | GUI App | Minimalist eye care reminder app | v1.1.0 |
 
