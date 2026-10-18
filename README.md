@@ -33,7 +33,7 @@ brew install samzong/tap/rx
 | blueprint | CLI Tool | Agent-native web scaffolding | v0.1.7 |
 | Branchlight | GUI App | Quiet menubar hub for GitHub work | v0.5.5 |
 | Combe | GUI App | A worktree-aware terminal for Apple Silicon. Curated catalog on the left, Ghostty surfaces on the right. | v0.2.6 |
-| confer | CLI Tool | Local multi-agent rooms over MCP | v0.2.2 |
+| confer | CLI Tool | Local multi-agent rooms over MCP | v0.2.3 |
 | ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
 | gmc | CLI Tool | CLI for that accelerates the efficiency of Git add and commit | v0.11.0 |
 | gofs | CLI Tool | Lightweight, fast HTTP file server written in Go | v0.4.0 |
