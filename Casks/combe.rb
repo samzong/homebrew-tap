@@ -1,8 +1,8 @@
 cask "combe" do
-  version "0.2.6"
+  version "0.2.7"
 
   on_arm do
-    sha256 "48674857d8cf6a27035103d5a6fcdd76b4593f288ba0de6a57f0d72cab89fea8"
+    sha256 "88d31a05e8d3a4e36879d5dd9a27d4af3e574ee5958531307e7fdfcdca4cb0f8"
 
     url "https://github.com/samzong/combe/releases/download/v#{version}/Combe-v#{version}-macos-arm64.zip"
   end
