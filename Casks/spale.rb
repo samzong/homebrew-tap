@@ -25,4 +25,12 @@ cask "spale" do
   postflight_steps do
     run "/usr/bin/xattr", args: ["-cr", "{{appdir}}/spale.app"]
   end
+
+  uninstall quit: "us.samzong.spale"
+
+  zap trash: [
+    "~/Library/Application Support/CrashReporter/spale_*.plist",
+    "~/Library/Preferences/us.samzong.spale.plist",
+    "~/Library/Saved Application State/us.samzong.spale.savedState",
+  ]
 end
