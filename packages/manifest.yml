@@ -52,6 +52,17 @@ packages:
         filename: ConfigForge-x86_64.dmg
         block: on_intel
 
+  etui:
+    type: cask
+    source_repo: samzong/Etui
+    path: Casks/etui.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      arm64:
+        filename: Etui-{version}-arm64.dmg
+        block: on_arm
+
   hf-model-downloader:
     type: cask
     source_repo: samzong/hf-model-downloader
