@@ -50,7 +50,7 @@ brew install samzong/tap/rx
 | recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.6.3 |
 | rx | CLI Tool | Launch agent harnesses through a configured AI provider | v0.1.0 |
 | SaveEye | GUI App | Minimalist eye care reminder app | v1.1.0 |
-| spale | GUI App | Native reader for live Git changes and plain-text editor | v0.1.1 |
+| spale | GUI App | Native reader for live Git changes and plain-text editor | v0.1.2 |
 
 ## Documentation
 
