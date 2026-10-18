@@ -1,8 +1,8 @@
 cask "etui" do
-  version "0.1.0"
+  version "0.1.1"
 
   on_arm do
-    sha256 "6d7f016da8721033c4b44415ac187d107e65e05997da8227e7b87106a842cb8a"
+    sha256 "8f5e6986f6ca350ea823a775ebd445cb414f208e905b6ff11234ca4d6fe2b184"
 
     url "https://github.com/samzong/Etui/releases/download/v#{version}/Etui-#{version}-arm64.dmg"
   end
