@@ -32,7 +32,7 @@ brew install samzong/tap/rx
 | Adit | GUI App | Local macOS shell for resumable LLM web conversation entrances | v0.2.0 |
 | blueprint | CLI Tool | Agent-native web scaffolding | v0.1.7 |
 | Branchlight | GUI App | Quiet menubar hub for GitHub work | v0.5.5 |
-| Combe | GUI App | A worktree-aware terminal for Apple Silicon. Curated catalog on the left, Ghostty surfaces on the right. | v0.2.6 |
+| Combe | GUI App | A worktree-aware terminal for Apple Silicon. Curated catalog on the left, Ghostty surfaces on the right. | v0.2.7 |
 | confer | CLI Tool | Local multi-agent rooms over MCP | v0.2.3 |
 | ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
 | Etui | GUI App | Launcher, clipboard manager, and window tiling utility | v0.1.0 |
