@@ -1,8 +1,8 @@
 cask "spale" do
-  version "0.1.1"
+  version "0.1.2"
 
   on_arm do
-    sha256 "ddcf9d46f417b8d267de057e2d840a25fd57edc4c1dcae5cfdddcca0bf55e61f"
+    sha256 "5fa93058f71069525a12b71d47572711075f513dbc493a3dd32df095222a857d"
 
     url "https://github.com/samzong/spale/releases/download/v#{version}/spale-v#{version}-macos-arm64.zip"
   end
