@@ -6,16 +6,16 @@ class Confer < Formula
   on_macos do
     depends_on arch: :arm64
     if Hardware::CPU.arm?
-      url "https://github.com/samzong/confer/releases/download/v0.2.3/confer-v0.2.3-darwin-arm64.tar.gz"
-      sha256 "7b0178c1e8cf77244b05cef31f66a1f3f149e6155fdc1a126566f9d68a715fd3"
+      url "https://github.com/samzong/confer/releases/download/v0.2.4/confer-v0.2.4-darwin-arm64.tar.gz"
+      sha256 "8af1a93754acbb5058dd38991f986e457ba3db63eebc4fb95b0833cc4a1d17ee"
     end
   end
 
   on_linux do
     depends_on arch: :x86_64
     if Hardware::CPU.intel?
-      url "https://github.com/samzong/confer/releases/download/v0.2.3/confer-v0.2.3-linux-x86_64.tar.gz"
-      sha256 "edec6c29e662370016ec8f4e33ab8e0a1b3f65c5c041a369e5f949961d226891"
+      url "https://github.com/samzong/confer/releases/download/v0.2.4/confer-v0.2.4-linux-x86_64.tar.gz"
+      sha256 "3201822b38812574a403bf3e44ce03849179da0253de91d5097ab645d9814b3c"
     end
   end
 
