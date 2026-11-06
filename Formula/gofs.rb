@@ -5,21 +5,21 @@
 class Gofs < Formula
   desc "Lightweight, fast HTTP file server written in Go"
   homepage "https://github.com/samzong/gofs"
-  version "0.4.0"
+  version "0.4.1"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.intel?
-      url "https://github.com/samzong/gofs/releases/download/v0.4.0/gofs_Darwin_x86_64.tar.gz"
-      sha256 "bd7bb309ed71e4ade6d473e699ddfcb5cab2ad594ca6565a4ad15a29aba39117"
+      url "https://github.com/samzong/gofs/releases/download/v0.4.1/gofs_Darwin_x86_64.tar.gz"
+      sha256 "d231ecd0f1c722a737a139626dacd0ed66a19b3f5199fc94c8fbbb6bfb936765"
 
       def install
         bin.install "gofs"
       end
     end
     if Hardware::CPU.arm?
-      url "https://github.com/samzong/gofs/releases/download/v0.4.0/gofs_Darwin_arm64.tar.gz"
-      sha256 "ea33fd3373b491b27294db36b83a77bdc947bdfa49a3811afc7b060aec3adf96"
+      url "https://github.com/samzong/gofs/releases/download/v0.4.1/gofs_Darwin_arm64.tar.gz"
+      sha256 "12c262901c8c8f92e836598f465f858197332cb21af15578d0dbf21ba5da941d"
 
       def install
         bin.install "gofs"
@@ -29,15 +29,15 @@ class Gofs < Formula
 
   on_linux do
     if Hardware::CPU.intel? && Hardware::CPU.is_64_bit?
-      url "https://github.com/samzong/gofs/releases/download/v0.4.0/gofs_Linux_x86_64.tar.gz"
-      sha256 "3c3a362668f29eebbdb29a3c3035f7bef3fb484b25444819394c5af877615e71"
+      url "https://github.com/samzong/gofs/releases/download/v0.4.1/gofs_Linux_x86_64.tar.gz"
+      sha256 "c5d2fd7f02bec396731893c7841097856a41485c9ead4c9b7847eb5a0c05e625"
       def install
         bin.install "gofs"
       end
     end
     if Hardware::CPU.arm? && Hardware::CPU.is_64_bit?
-      url "https://github.com/samzong/gofs/releases/download/v0.4.0/gofs_Linux_arm64.tar.gz"
-      sha256 "0916fee717badeee09eaefc4c7a51aba53f2940aeddfff0729d3f75fa4f51d27"
+      url "https://github.com/samzong/gofs/releases/download/v0.4.1/gofs_Linux_arm64.tar.gz"
+      sha256 "9fb09f93d77d5c6b2499236b7a428d12102af891b5f58848a70278fb46a6a9a1"
       def install
         bin.install "gofs"
       end
