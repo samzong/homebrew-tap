@@ -167,7 +167,6 @@ packages:
       universal:
         filename: samzong-blueprint-{version}.tgz
         url_match: samzong-blueprint-
-        update_url: true
 
   confer:
     type: formula
@@ -179,11 +178,9 @@ packages:
       darwin_arm64:
         filename: confer-v{version}-darwin-arm64.tar.gz
         url_match: darwin-arm64
-        update_url: true
       linux_x86_64:
         filename: confer-v{version}-linux-x86_64.tar.gz
         url_match: linux-x86_64
-        update_url: true
 
   gmc:
     type: formula

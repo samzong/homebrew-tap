@@ -35,19 +35,30 @@ begin
   raise HomebrewTap::Error, "package file does not exist: #{package_path}; create it manually first" unless package_path.file?
 
   github = HomebrewTap::GitHubClient.new
+  version_prefix = package.fetch("version_prefix", "v") || "v"
+  allow_prerelease = package["allow_prerelease"] == true
   requested_version = options[:version].to_s.strip
   if requested_version.empty? || requested_version == "latest"
-    release = github.latest_release(package.fetch("source_repo"), allow_prerelease: package["allow_prerelease"] == true)
+    release = github.latest_release(
+      package.fetch("source_repo"),
+      version_prefix: version_prefix,
+      allow_prerelease: allow_prerelease
+    )
     raise HomebrewTap::Error, "no published release found for #{package.fetch("source_repo")}" unless release
 
     tag = release.fetch("tag_name")
-    version = HomebrewTap.normalize_version(tag)
+    version = HomebrewTap.normalize_version(tag, prefix: version_prefix)
   else
-    version = HomebrewTap.normalize_version(requested_version)
+    version = HomebrewTap.normalize_version(requested_version, prefix: version_prefix)
     tag = HomebrewTap.tag_for(package, version)
+    tag_regex = HomebrewTap.release_tag_regex(prefix: version_prefix, allow_prerelease: allow_prerelease)
+    unless tag_regex.match?(tag)
+      raise HomebrewTap::Error, "invalid release tag #{tag} for #{options[:package]}"
+    end
+
     release = github.release_by_tag(package.fetch("source_repo"), tag)
     raise HomebrewTap::Error, "release is draft: #{package.fetch("source_repo")}@#{tag}" if release.fetch("draft")
-    if release.fetch("prerelease") && package["allow_prerelease"] != true
+    if release.fetch("prerelease") && !allow_prerelease
       raise HomebrewTap::Error, "release is prerelease and allow_prerelease is not enabled: #{package.fetch("source_repo")}@#{tag}"
     end
   end

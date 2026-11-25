@@ -19,13 +19,24 @@ module HomebrewTap
     Pathname.new(__dir__).join("../../..").expand_path
   end
 
-  def normalize_version(version)
-    version.to_s.sub(/^v/, "")
+  def release_tag_regex(prefix: "v", allow_prerelease: false)
+    prerelease_suffix = allow_prerelease ? "(?:-(?:alpha|beta|rc)\\.[1-9]\\d*)?" : ""
+    /\A#{Regexp.escape(prefix.to_s)}(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)#{prerelease_suffix}\z/
+  end
+
+  def normalize_version(version, prefix: "v")
+    value = version.to_s
+    prefix_str = prefix.to_s
+    if !prefix_str.empty? && value.start_with?(prefix_str)
+      value.delete_prefix(prefix_str)
+    else
+      value.sub(/\Av/, "")
+    end
   end
 
   def tag_for(package, version)
-    prefix = package.fetch("version_prefix", "v")
-    "#{prefix}#{normalize_version(version)}"
+    prefix = package.fetch("version_prefix", "v") || "v"
+    "#{prefix}#{normalize_version(version, prefix: prefix)}"
   end
 
   def expand_template(value, version:, tag:, filename: nil)
@@ -92,9 +103,21 @@ module HomebrewTap
     end
 
     def validate!(root: HomebrewTap.repo_root)
+      root_path = Pathname.new(root)
       packages.each do |name, package|
-        validate_package!(name, package, root: root)
+        validate_package!(name, package, root: root_path)
       end
+
+      registered_paths = packages.values.map { |package| package.fetch("path") }
+      actual_paths = %w[Formula/*.rb Casks/*.rb].flat_map do |pattern|
+        Dir.glob(root_path.join(pattern).to_s).map do |file|
+          Pathname.new(file).relative_path_from(root_path).to_s
+        end
+      end.sort
+      missing_from_manifest = actual_paths - registered_paths
+      return if missing_from_manifest.empty?
+
+      raise Error, "unregistered package file(s) missing from manifest: #{missing_from_manifest.join(", ")}"
     end
 
     private
@@ -136,10 +159,13 @@ module HomebrewTap
       request_json("/repos/#{repo}/releases/tags/#{URI.encode_www_form_component(tag)}")
     end
 
-    def latest_release(repo, allow_prerelease: false)
-      releases = request_json("/repos/#{repo}/releases?per_page=30")
+    def latest_release(repo, version_prefix: "v", allow_prerelease: false)
+      tag_regex = HomebrewTap.release_tag_regex(prefix: version_prefix, allow_prerelease: allow_prerelease)
+      releases = request_json("/repos/#{repo}/releases?per_page=100")
       releases.find do |release|
-        !release.fetch("draft") && (allow_prerelease || !release.fetch("prerelease"))
+        !release.fetch("draft") &&
+          (allow_prerelease || !release.fetch("prerelease")) &&
+          tag_regex.match?(release["tag_name"].to_s)
       end
     end
 

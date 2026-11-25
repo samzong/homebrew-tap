@@ -32,9 +32,15 @@ begin
     path = root.join(package.fetch("path"))
     current = HomebrewTap.current_version(path)
     auto = package.fetch("auto_bump_on_scan", true) != false
+    version_prefix = package.fetch("version_prefix", "v") || "v"
+    allow_prerelease = package["allow_prerelease"] == true
 
     begin
-      latest = github.latest_release(package.fetch("source_repo"), allow_prerelease: package["allow_prerelease"] == true)
+      latest = github.latest_release(
+        package.fetch("source_repo"),
+        version_prefix: version_prefix,
+        allow_prerelease: allow_prerelease
+      )
     rescue HomebrewTap::Error => e
       rows << [name, current, "n/a", "scan error: #{e.message}", auto ? "yes" : "no"]
       next
@@ -45,7 +51,7 @@ begin
       next
     end
 
-    latest_version = HomebrewTap.normalize_version(latest.fetch("tag_name"))
+    latest_version = HomebrewTap.normalize_version(latest.fetch("tag_name"), prefix: version_prefix)
     status =
       if latest_version == current
         "current"
