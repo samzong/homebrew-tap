@@ -70,11 +70,13 @@ packages:
     auto_bump_on_scan: true
     assets:
       arm64:
-        filename: LogoWallpaper-arm64.dmg
+        filename: LogoWallpaper-{version}-arm64.dmg
         block: on_arm
+        update_url: true
       x86_64:
-        filename: LogoWallpaper-x86_64.dmg
+        filename: LogoWallpaper-{version}-x86_64.dmg
         block: on_intel
+        update_url: true
 
   mac-music-player:
     type: cask
@@ -84,8 +86,9 @@ packages:
     auto_bump_on_scan: true
     assets:
       arm64:
-        filename: MacMusicPlayer-arm64.dmg
+        filename: MacMusicPlayer-{version}-arm64.dmg
         block: on_arm
+        update_url: true
 
   mote:
     type: cask
@@ -95,8 +98,9 @@ packages:
     auto_bump_on_scan: true
     assets:
       arm64:
-        filename: Mote-arm64.dmg
+        filename: Mote-{version}-arm64.dmg
         block: on_arm
+        update_url: true
 
   prompts:
     type: cask
