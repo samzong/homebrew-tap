@@ -29,28 +29,24 @@ brew install samzong/tap/rx
 
 | Application Name    | Type     | Description                                                                 | Latest Version |
 | ------------------- | -------- | --------------------------------------------------------------------------- | -------------- |
-| Adit | GUI App | Local macOS shell for resumable LLM web conversation entrances | v0.2.0 |
 | blueprint | CLI Tool | Agent-native web scaffolding | v0.1.7 |
-| Branchlight | GUI App | Quiet menubar hub for GitHub work | v0.5.5 |
-| Combe | GUI App | A worktree-aware terminal for Apple Silicon. Curated catalog on the left, Ghostty surfaces on the right. | v0.2.7 |
 | confer | CLI Tool | Local multi-agent rooms over MCP | v0.2.4 |
-| ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
-| Etui | GUI App | Launcher, clipboard manager, and window tiling utility | v0.1.1 |
-| gmc | CLI Tool | CLI for that accelerates the efficiency of Git add and commit | v0.11.0 |
 | gofs | CLI Tool | Lightweight, fast HTTP file server written in Go | v0.4.1 |
-| HF Model Downloader | GUI App | GUI tool for downloading Hugging Face models | v0.6.5 |
-| LogoWallpaper | GUI App | A wallpaper application for macOS | v0.2.0 |
-| MacMusicPlayer | GUI App | Simple and elegant music player | v0.6.0 |
-| Mailbell | GUI App | Menu bar Gmail notifier | v0.0.4 |
-| mdctl | CLI Tool | CLI tool for managing markdown files | v0.1.2 |
-| mirrormate | CLI Tool | One-shot mirror injection for Docker builds and compose workflows. | v0.0.7 |
-| mm | CLI Tool | CLI for that help you fast to contribution to projects | v0.0.6 |
-| Mote | GUI App | Menu bar app for rewriting selected text with OpenAI-compatible models | v0.1.0 |
-| Prompts | GUI App | System-level prompt management tool | v0.1.9 |
 | recall | CLI Tool | Local-first TUI for searching AI coding session history | v0.7.0 |
 | rx | CLI Tool | Launch agent harnesses through a configured AI provider | v0.2.1 |
-| SaveEye | GUI App | Minimalist eye care reminder app | v1.1.0 |
 | spale | GUI App | Native reader for live Git changes and plain-text editor | v0.1.2 |
+| Etui | GUI App | Launcher, clipboard manager, and window tiling utility | v0.1.1 |
+| Combe | GUI App | A worktree-aware terminal for Apple Silicon. Curated catalog on the left, Ghostty surfaces on the right. | v0.2.7 |
+| MacMusicPlayer | GUI App | Simple and elegant music player | v0.6.0 |
+| HF Model Downloader | GUI App | GUI tool for downloading Hugging Face models | v0.6.5 |
+| gmc | CLI Tool | CLI for that accelerates the efficiency of Git add and commit | v0.11.0 |
+| Adit | GUI App | Local macOS shell for resumable LLM web conversation entrances | v0.2.0 |
+| ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
+| LogoWallpaper | GUI App | A wallpaper application for macOS | v0.2.0 |
+| Prompts | GUI App | System-level prompt management tool | v0.1.9 |
+| SaveEye | GUI App | Minimalist eye care reminder app | v1.1.0 |
+| Mote | GUI App | Menu bar app for rewriting selected text with OpenAI-compatible models | v0.1.0 |
+| mdctl | CLI Tool | CLI tool for managing markdown files | v0.1.2 |
 
 ## Documentation
 
