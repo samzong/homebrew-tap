@@ -13,20 +13,6 @@ packages:
         filename: Adit-{version}-arm64.dmg
         block: on_arm
 
-  branchlight:
-    type: cask
-    source_repo: samzong/branchlight
-    path: Casks/branchlight.rb
-    version_prefix: v
-    auto_bump_on_scan: true
-    assets:
-      arm64:
-        filename: Branchlight-arm64.dmg
-        block: on_arm
-      x86_64:
-        filename: Branchlight-x86_64.dmg
-        block: on_intel
-
   combe:
     type: cask
     source_repo: samzong/combe
@@ -99,17 +85,6 @@ packages:
     assets:
       arm64:
         filename: MacMusicPlayer-arm64.dmg
-        block: on_arm
-
-  mailbell:
-    type: cask
-    source_repo: samzong/mailbell
-    path: Casks/mailbell.rb
-    version_prefix: v
-    auto_bump_on_scan: true
-    assets:
-      arm64:
-        filename: Mailbell-arm64.dmg
         block: on_arm
 
   mote:
@@ -243,46 +218,6 @@ packages:
       linux_x86_64:
         filename: mdctl_Linux_x86_64.tar.gz
         url_match: mdctl_Linux_x86_64.tar.gz
-
-  mirrormate:
-    type: formula
-    source_repo: samzong/mirrormate
-    path: Formula/mirrormate.rb
-    version_prefix: v
-    auto_bump_on_scan: true
-    assets:
-      darwin_x86_64:
-        filename: mirrormate_Darwin_x86_64.tar.gz
-        url_match: mirrormate_Darwin_x86_64.tar.gz
-      darwin_arm64:
-        filename: mirrormate_Darwin_arm64.tar.gz
-        url_match: mirrormate_Darwin_arm64.tar.gz
-      linux_x86_64:
-        filename: mirrormate_Linux_x86_64.tar.gz
-        url_match: mirrormate_Linux_x86_64.tar.gz
-      linux_arm64:
-        filename: mirrormate_Linux_arm64.tar.gz
-        url_match: mirrormate_Linux_arm64.tar.gz
-
-  mm:
-    type: formula
-    source_repo: samzong/mm
-    path: Formula/mm.rb
-    version_prefix: v
-    auto_bump_on_scan: true
-    assets:
-      darwin_arm64:
-        filename: mm_Darwin_arm64.tar.gz
-        url_match: mm_Darwin_arm64.tar.gz
-      darwin_x86_64:
-        filename: mm_Darwin_x86_64.tar.gz
-        url_match: mm_Darwin_x86_64.tar.gz
-      linux_arm64:
-        filename: mm_Linux_arm64.tar.gz
-        url_match: mm_Linux_arm64.tar.gz
-      linux_x86_64:
-        filename: mm_Linux_x86_64.tar.gz
-        url_match: mm_Linux_x86_64.tar.gz
 
   recall:
     type: formula
