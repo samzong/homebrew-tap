@@ -71,6 +71,21 @@ ruby scripts/update-package.rb \
 
 ## Adding a new package
 
+### Versioned archive filenames
+
+For versioned archives such as `gmc_1.0.0_Darwin_arm64.tar.gz`, use `{version}` in `filename`, a version-independent suffix in `url_match`, and `update_url: true`:
+
+```yaml
+filename: gmc_{version}_Darwin_arm64.tar.gz
+url_match: _Darwin_arm64.tar.gz
+update_url: true
+```
+
+The suffix matches both the old URL and later versioned URLs. `update_url: true` replaces an existing URL even when it contains `#{version}`. Verify the migration with `ruby scripts/update-package.rb --package gmc --version 1.0.0 --dry-run` after the stable release assets exist.
+The updater writes its summary during a dry run. Use `--summary-file PATH` to choose the summary path.
+
+### First package release
+
 1. Publish a GitHub release with stable asset names.
 2. Manually add the first `Formula/*.rb` or `Casks/*.rb` file.
 3. Add a package entry to `packages/manifest.yml`.
