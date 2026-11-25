@@ -29,7 +29,7 @@ brew install samzong/tap/rx
 
 | Application Name    | Type     | Description                                                                 | Latest Version |
 | ------------------- | -------- | --------------------------------------------------------------------------- | -------------- |
-| Adit | GUI App | Local macOS shell for resumable LLM web conversation entrances | v0.2.0 |
+| Adit | GUI App | Local macOS shell for resumable LLM web conversation entrances | v0.2.1 |
 | blueprint | CLI Tool | Agent-native web scaffolding | v0.1.7 |
 | Combe | GUI App | A worktree-aware terminal for Apple Silicon. Curated catalog on the left, Ghostty surfaces on the right. | v0.2.7 |
 | confer | CLI Tool | Local multi-agent rooms over MCP | v0.3.0 |
