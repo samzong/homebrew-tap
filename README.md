@@ -34,7 +34,7 @@ brew install samzong/tap/rx
 | Combe | GUI App | A worktree-aware terminal for Apple Silicon. Curated catalog on the left, Ghostty surfaces on the right. | v0.2.7 |
 | confer | CLI Tool | Local multi-agent rooms over MCP | v0.2.4 |
 | ConfigForge | GUI App | Open-source SSH configuration and Kubernetes configuration management tool | v0.2.1 |
-| Etui | GUI App | Launcher, clipboard manager, and window tiling utility | v0.1.1 |
+| Etui | GUI App | Launcher, clipboard manager, and window tiling utility | v0.2.0 |
 | gmc | CLI Tool | CLI for that accelerates the efficiency of Git add and commit | v1.0.0 |
 | gofs | CLI Tool | Lightweight, fast HTTP file server written in Go | v0.4.1 |
 | HF Model Downloader | GUI App | GUI tool for downloading Hugging Face models | v0.6.5 |
