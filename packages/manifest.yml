@@ -46,11 +46,13 @@ packages:
     auto_bump_on_scan: true
     assets:
       arm64:
-        filename: ConfigForge-arm64.dmg
+        filename: ConfigForge-{version}-arm64.dmg
         block: on_arm
+        update_url: true
       x86_64:
-        filename: ConfigForge-x86_64.dmg
+        filename: ConfigForge-{version}-x86_64.dmg
         block: on_intel
+        update_url: true
 
   etui:
     type: cask
