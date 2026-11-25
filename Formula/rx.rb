@@ -1,23 +1,23 @@
 class Rx < Formula
   desc "Launch agent harnesses through a configured AI provider"
   homepage "https://github.com/samzong/rx"
-  version "0.2.1"
+  version "0.3.0"
   license "MIT"
 
   on_macos do
     if Hardware::CPU.arm?
       url "https://github.com/samzong/rx/releases/download/v#{version}/rx-macos-aarch64.tar.gz"
-      sha256 "0159afb2b3065e803af5709adafff28fdd2af3fea55bc5cc9841e3940ebc1b77"
+      sha256 "b3fd4886343a8b463c81f2e85aa5daebf282ed40a7363d975d1796d24c14c69e"
     else
       url "https://github.com/samzong/rx/releases/download/v#{version}/rx-macos-x86_64.tar.gz"
-      sha256 "7edd5126a77baac70937b4f738fca96eb5882f368e44627c1d42759b042adf52"
+      sha256 "7d49c7e722f71a5762573d419502ed60a2c2e4bb23be91c9e5e241db47b395ee"
     end
   end
 
   on_linux do
     depends_on arch: :x86_64
     url "https://github.com/samzong/rx/releases/download/v#{version}/rx-linux-x86_64.tar.gz"
-    sha256 "6aa60105997f523fb74ec849b0393a6634d8391faae7e669b830526089df32b4"
+    sha256 "d3d525c80dfc58ea6277edb1a26cb2eb36d5acd74bbc659f5b25ef00aeda145f"
   end
 
   def install
