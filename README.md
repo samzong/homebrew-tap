@@ -39,7 +39,7 @@ brew install samzong/tap/rx
 | gofs | CLI Tool | Lightweight, fast HTTP file server written in Go | v0.4.1 |
 | HF Model Downloader | GUI App | GUI tool for downloading Hugging Face models | v0.6.5 |
 | LogoWallpaper | GUI App | A wallpaper application for macOS | v0.2.0 |
-| MacMusicPlayer | GUI App | Simple and elegant music player | v0.6.0 |
+| MacMusicPlayer | GUI App | Simple and elegant music player | v0.6.1 |
 | mdctl | CLI Tool | CLI tool for managing markdown files | v0.1.2 |
 | Mote | GUI App | Menu bar app for rewriting selected text with OpenAI-compatible models | v0.1.0 |
 | Prompts | GUI App | System-level prompt management tool | v0.1.9 |
