@@ -78,6 +78,20 @@ packages:
         block: on_intel
         update_url: true
 
+  lunt:
+    type: cask
+    source_repo: samzong/lunt
+    path: Casks/lunt.rb
+    version_prefix: v
+    auto_bump_on_scan: true
+    assets:
+      arm64:
+        filename: Lunt-{version}-arm64.dmg
+        block: on_arm
+      x86_64:
+        filename: Lunt-{version}-x86_64.dmg
+        block: on_intel
+
   mac-music-player:
     type: cask
     source_repo: samzong/MacMusicPlayer
