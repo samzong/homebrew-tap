@@ -88,9 +88,6 @@ packages:
       arm64:
         filename: Lunt-{version}-arm64.dmg
         block: on_arm
-      x86_64:
-        filename: Lunt-{version}-x86_64.dmg
-        block: on_intel
 
   mac-music-player:
     type: cask
