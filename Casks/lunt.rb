@@ -6,11 +6,6 @@ cask "lunt" do
 
     url "https://github.com/samzong/lunt/releases/download/v#{version}/Lunt-#{version}-arm64.dmg"
   end
-  on_intel do
-    sha256 "71b377112c172d6086a02352313fee54480603c10c41a823d1a3d4fd67c33c6a"
-
-    url "https://github.com/samzong/lunt/releases/download/v#{version}/Lunt-#{version}-x86_64.dmg"
-  end
 
   name "Lunt"
   desc "Quiet menubar hub for GitHub work"
@@ -22,6 +17,7 @@ cask "lunt" do
   end
 
   auto_updates true
+  depends_on arch: :arm64
   depends_on macos: :sequoia
 
   app "Lunt.app"
